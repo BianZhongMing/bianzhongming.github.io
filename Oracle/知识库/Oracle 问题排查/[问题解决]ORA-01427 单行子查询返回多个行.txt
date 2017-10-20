@@ -1,0 +1,70 @@
+有人问题我一个问题，情况如下：
+他要用根据divide_act_channel_day的new_amount字段去更新divide_stat的new_amount字段。
+两张表关联的条件:day=log_time,channel=channel
+
+--SQL如下：
+update divide_stat 
+set divide_stat.new_amount=(select divide_act_channel_day.new_amount from divide_act_channel_day
+where divide_stat.day=divide_act_channel_day.log_time 
+and divide_stat.channel=divide_act_channel_day.channel );
+
+SQL 错误: ORA-01427: 单行子查询返回多个行
+01427. 00000 -  "single-row subquery returns more than one row"
+
+
+--推测子查询中肯定有返回多行的情况,试着在子查询中加入rownum<2,也就是限制返回一行数据。成功！
+update divide_stat 
+set divide_stat.new_amount=(select divide_act_channel_day.new_amount from divide_act_channel_day
+where divide_stat.day=divide_act_channel_day.log_time 
+and divide_stat.channel=divide_act_channel_day.channel and rownum<2);
+
+
+--找出divide_act_channel_day表重复行。有9行重复。
+select * from 
+(
+select count(*) total,log_time,channel  from divide_act_channel_day
+group by log_time, channel
+)
+where total>1;
+
+TOTAL                  LOG_TIME                  CHANNEL                                            
+---------------------- ------------------------- -------------------------------------------------- 
+2                      2012-12-12 00:00:00       0                                                  
+2                      2012-12-13 00:00:00       0                                                  
+2                      2013-01-07 00:00:00       0                                                  
+2                      2012-12-15 00:00:00       0                                                  
+2                      2012-12-01 00:00:00       0                                                  
+2                      2012-12-31 00:00:00       0                                                  
+2                      2012-12-04 00:00:00       0                                                  
+2                      2012-12-23 00:00:00       0                                                  
+2                      2012-12-21 00:00:00       0                                                  
+
+9 所选行
+
+
+--观察divide_act_channel_day表，发现它根本没有重复行。看来是where条件精度不够造成的行重复。
+
+--观察divide_act_channel_day和divide_stat两张表，发现它们还有可以关联的列：amount和NEW_USER_AMOUNT。
+--这样就没有重复行了。
+select * from 
+(
+select count(*) total,log_time,channel,amount,NEW_USER_AMOUNT  from divide_act_channel_day
+group by log_time, channel, amount, NEW_USER_AMOUNT
+)
+where total>1;
+
+no rows selected
+
+
+
+--修改upadte语句
+update divide_stat 
+set divide_stat.new_amount=(select divide_act_channel_day.new_amount from divide_act_channel_day 
+where divide_stat.day=divide_act_channel_day.log_time 
+and divide_stat.channel=divide_act_channel_day.channel and  divide_stat.amount=divide_act_channel_day.amount
+and  divide_stat.NEW_USER_AMOUNT=divide_act_channel_day.NEW_USER_AMOUNT);
+
+
+结论：
+1.根据A表的某列去update B表的某列时，一定要找出A B两张表可以关联的所有字段，这样基本上不会出现"ORA-01427: 单行子查询返回多个行";
+2.如果A表中真的有重复行，那就加上rownum<2条件解决。

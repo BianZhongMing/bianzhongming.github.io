@@ -1,0 +1,102 @@
+刚装上的oracle9i,上次还能用呢,这次突然用不了.
+
+[oracle@R39i oracle]$ sqlplus scott/tiger
+
+SQL*Plus: Release 9.2.0.4.0 - Production on Mon Nov 24 11:06:50 2008
+
+Copyright (c) 1982, 2002, Oracle Corporation. All rights reserved.
+ERROR:
+ORA-01034: ORACLE not available
+ORA-27101: shared memory realm does not exist
+Linux Error: 2: No such file or directory
+
+
+[root@R39i root]# id oracle
+uid=500(oracle) gid=501(dba) groups=501(dba)
+[root@R39i root]# su - oracle
+[oracle@R39i oracle]$ lsnrctl start
+
+LSNRCTL for Linux: Version 9.2.0.4.0 - Production on 24-NOV-2008 10:57:29
+
+Copyright (c) 1991, 2002, Oracle Corporation. All rights reserved.
+
+Starting /oracle/product/9i/bin/tnslsnr: please wait...
+
+TNSLSNR for Linux: Version 9.2.0.4.0 - Production
+System parameter file is /oracle/product/9i/network/admin/listener.ora
+Log messages written to /oracle/product/9i/network/log/listener.log
+Error listening on: (DESCRIPTION=(ADDRESS=(PROTOCOL=IPC)(KEY=EXTPROC)))
+TNS-12542: TNS:address already in use
+TNS-12560: TNS:protocol adapter error
+TNS-00512: Address already in use
+   Linux Error: 98: Address already in use
+
+Listener failed to start. See the error message(s) above...
+
+[oracle@R39i oracle]$ lsnrctl status
+
+LSNRCTL for Linux: Version 9.2.0.4.0 - Production on 24-NOV-2008 11:21:13
+
+Copyright (c) 1991, 2002, Oracle Corporation. All rights reserved.
+
+Connecting to (DESCRIPTION=(ADDRESS=(PROTOCOL=IPC)(KEY=EXTPROC)))
+STATUS of the LISTENER
+==============================================
+[oracle@R39i oracle]$ lsnrctl status
+
+LSNRCTL for Linux: Version 9.2.0.4.0 - Production on 24-NOV-2008 11:21:13
+
+Copyright (c) 1991, 2002, Oracle Corporation. All rights reserved.
+
+Connecting to (DESCRIPTION=(ADDRESS=(PROTOCOL=IPC)(KEY=EXTPROC)))
+STATUS of the LISTENER
+------------------------
+Alias                     LISTENER
+Version                   TNSLSNR for Linux: Version 9.2.0.4.0 - Production
+Start Date                24-NOV-2008 10:52:27
+Uptime                    0 days 0 hr. 28 min. 45 sec
+Trace Level               off
+Security                  OFF
+SNMP                      OFF
+Listener Parameter File   /oracle/product/9i/network/admin/listener.ora
+Listener Log File         /oracle/product/9i/network/log/listener.log
+Listening Endpoints Summary...
+(DESCRIPTION=(ADDRESS=(PROTOCOL=ipc)(KEY=EXTPROC)))
+(DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=R39i)(PORT=1521)))
+Services Summary...
+Service "PLSExtProc" has 1 instance(s).
+Instance "PLSExtProc", status UNKNOWN, has 1 handler(s) for this service...
+Service "mydata" has 1 instance(s).
+Instance "mydata", status UNKNOWN, has 1 handler(s) for this service...
+The command completed successfully
+
+呵呵，原来监听已经启动了.
+[oracle@R39i oracle]$ sqlplus /nolog
+
+SQL*Plus: Release 9.2.0.4.0 - Production on Mon Nov 24 12:01:37 2008
+
+Copyright (c) 1982, 2002, Oracle Corporation. All rights reserved.
+
+SQL> connect /as sysdba
+Connected to an idle instance.
+SQL> startup
+ORACLE instance started.
+
+Total System Global Area 122754448 bytes
+Fixed Size                   451984 bytes
+Variable Size              88080384 bytes
+Database Buffers           33554432 bytes
+Redo Buffers                 667648 bytes
+Database mounted.
+Database opened.
+
+数据库就可以用了。
+
+总结，
+
+1,数据库没有打开时，其它用户是联不上的。
+2,如果用sys也打不开数据库，则可能是坏境变量的事了。
+
+可用下面的方法来检查,看是否和你预想的一样。
+
+env |grep ORACLE

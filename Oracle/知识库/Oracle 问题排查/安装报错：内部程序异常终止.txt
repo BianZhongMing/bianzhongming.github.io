@@ -1,0 +1,20 @@
+Oracle在WIN7上安装时，内部程序异常终止解决办法
+
+严重: 程序异常终止。发生内部错误。 请将以下文件提供给 Oracle 技术支持部门: "" "" ""    
+解决方法： 
+ 
+1.打开\Oracle 10g\stage\prereq\db路径，找到refhost.xml文件，打开，向其中添加如下代码并保存。 
+<OPERATING_SYSTEM> 
+          <VERSION VALUE="6.1"/> 
+</OPERATING_SYSTEM> 
+2.打开\Oracle 10G \install路径，找到oraparam.ini文件，打开，向其中添加如下代码并保存。 
+[Windows-6.1-required] 
+#Minimum 
+display colours for OUI to run 
+MIN_DISPLAY_COLORS=256 
+#Minimum CPU speed 
+required for OUI 
+#CPU=300 
+[Windows-6.1-optional] 
+ 
+3.找到oracle安装文件中的setup应用程序，右击属性-->兼容性-->勾上兼容模式选择("Windows XP(Service Pack 3)")，勾上"以管理员身份登录此程序",确定，然后运行！ 

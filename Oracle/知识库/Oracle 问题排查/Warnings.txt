@@ -1,0 +1,9 @@
+影响不大的警告：
+（1）IMP-00041: Warning: object created with compilation warnings
+ "CREATE FORCE VIEW "NCV502"."TEMQ_173CCE111896B1DBB9"
+
+（2）IMP-00003: ORACLE error 911 encountered
+ORA-00911: invalid character
+IMP-00017: following statement failed with ORACLE error 911:
+ "CREATE FORCE VIEW "NCV502"."TEMQ_173CCE111896B17A01"                       "
+ "   ("CUSTNAME","VDEF6","VDEF3","VDEF15","BUSINAME","VDEF10","INVCLASSCODE","

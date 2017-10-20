@@ -1,0 +1,12 @@
+t=Time.now
+puts(t)
+fname=t.strftime("%Y%m%d")+'.log'
+cmd0="rman target sys/oracle @/home/oracle/fbak_l0.rsv log=/home/oracle/rman_#{fname}"
+cmd1="rman target sys/oracle @/home/oracle/fbak_l1.rsv log=/home/oracle/rman_#{fname}"
+cmd2="rman target sys/oracle @/home/oracle/fbak_l2.rsv log=/home/oracle/rman_#{fname}"
+case t.strftime("%w")
+  when '1','2','3','5','6': system(cmd0)
+  when '4': system(cmd0)
+  else system(cmd0)
+end
+puts(Time.now)

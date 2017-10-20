@@ -1,0 +1,14 @@
+[oracle@testunix lib]$ make -f ins_net_client.mk install
+/bin/chmod 755 /opt/oracle/10.2.0/bin/
+ - Linking trcroute
+rm -f trcroute
+gcc -o trcroute -L/opt/oracle/10.2.0/network/lib/ -L/opt/oracle/10.2.0/lib/ -L/opt/oracle/10.2.0/lib/stubs/  /opt/oracle/10.2.0/network/lib/s0nur.o /opt/oracle/10.2.0/network/lib/nur.o -lclntsh  `cat /opt/oracle/10.2.0/lib/ldflags`    -lnsslb10 -lncrypt10 -lnsgr10 -lnzjs10 -ln10 -lnnz10 -lnl10 -lnro10 `cat /opt/oracle/10.2.0/lib/ldflags`    -lnsslb10 -lncrypt10 -lnsgr10 -lnzjs10 -ln10 -lnnz10 -lnl10 -lclient10 -lnnetd10  -lvsn10 -lcommon10 -lgeneric10 -lmm -lsnls10 -lnls10  -lcore10 -lsnls10 -lnls10 -lcore10 -lsnls10 -lnls10 -lxml10 -lcore10 -lunls10 -lsnls10 -lnls10 -lcore10 -lnls10 `cat /opt/oracle/10.2.0/lib/ldflags`    -lnsslb10 -lncrypt10 -lnsgr10 -lnzjs10 -ln10 -lnnz10 -lnl10 -lnro10 `cat /opt/oracle/10.2.0/lib/ldflags`    -lnsslb10 -lncrypt10 -lnsgr10 -lnzjs10 -ln10 -lnnz10 -lnl10 -lclient10 -lnnetd10  -lvsn10 -lcommon10 -lgeneric10   -lsnls10 -lnls10  -lcore10 -lsnls10 -lnls10 -lcore10 -lsnls10 -lnls10 -lxml10 -lcore10 -lunls10 -lsnls10 -lnls10 -lcore10 -lnls10 -lclient10 -lnnetd10  -lvsn10 -lcommon10 -lgeneric10 -lsnls10 -lnls10  -lcore10 -lsnls10 -lnls10 -lcore10 -lsnls10 -lnls10 -lxml10 -lcore10 -lunls10 -lsnls10 -lnls10 -lcore10 -lnls10   `cat /opt/oracle/10.2.0/lib/sysliblist` -Wl,-rpath,/opt/oracle/10.2.0/lib -lm    `cat /opt/oracle/10.2.0/lib/sysliblist` -ldl -lm   -L/opt/oracle/10.2.0/lib
+/opt/oracle/10.2.0/network/lib/s0nur.o: file not recognized: File format not recognized
+collect2: ld returned 1 exit status
+make: *** [trcroute] Error 1
+
+[oracle@testunix lib]$ uname -a
+Linux testunix.tesiro.com 2.6.9-42.ELsmp #1 SMP Wed Jul 12 23:27:17 EDT 2006 i686 i686 i386 GNU/Linux
+
+i386 或i686就是32为
+x86_64就是64位

@@ -1,0 +1,93 @@
+SQL> startup
+
+ORA-00845: MEMORY_TARGET not supported on this system
+
+查找资料后发现问题如下,见metalinikID 460506.1
+
+在oracle 11g中新增的内存自动管理的参数MEMORY_TARGET,它能自动调整SGA和PGA，这个特性需要用到/dev/shm共享文件系统，而且要求/dev/shm必须大于MEMORY_TARGET，如果/dev/shm比MEMORY_TARGET小就会报错
+
+解决方案
+
+1.初始化参数MEMORY_TARGET或MEMORY_MAX_TARGET不能大于共享内存(/dev/shm),为了解决这个问题，可以增大/dev/shm
+
+如：
+
+# mount -t tmpfs shmfs -o size=7g /dev/shm
+
+2.为了确保操作系统重启之后能生效，需要修改/etc/fstab文件
+
+shmfs /dev/shm tmpfs size=7g 0
+
+3.如果/dev/shm没有挂载也会报上面的错，所认需要确保已经挂载
+
+oracle@aaaprod-db ~]$ df -h
+
+……
+
+tmpfs                16G 8.9G 7.2G 56% /dev/shm
+
+……
+
+下面为一次操作的记录
+
+[root@aaaprod-db ~]# cat /etc/fstab | grep tmpfs
+
+tmpfs                  /dev/shm              tmpfs  defaults,size=8g      0 0
+
+[root@aaaprod-db ~]#
+
+[root@aaaprod-db ~]# mount -o remount,size=16G /dev/shm
+
+[root@aaaprod-db ~]#
+
+[root@aaaprod-db ~]# cat /etc/fstab | grep tmpfs
+
+tmpfs                  /dev/shm              tmpfs  defaults,size=8g      0 0
+
+[root@aaaprod-db ~]# vi /etc/fstab
+
+/dev/rootvg/LogVol02  /                      ext3  defaults      1 1
+
+/dev/rootvg/LogVol01  /tmp                  ext3  defaults      1 2
+
+/dev/rootvg/lvol0    /ebao                  ext3  defaults      1 2
+
+/dev/rootvg/lvol1    /backup                ext3  defaults      1 2
+
+LABEL=/boot            /boot                  ext3  defaults      1 2
+
+tmpfs                  /dev/shm              tmpfs  defaults,size=16g      0 0
+
+devpts                /dev/pts              devpts gid=5,mode=620 0 0
+
+sysfs                  /sys                  sysfs  defaults      0 0
+
+proc                  /proc                  proc  defaults      0 0
+
+/dev/rootvg/LogVol00  swap                  swap  defaults      0 0
+
+"/etc/fstab" 10L, 769C written
+
+[root@aaaprod-db ~]# df -h|grep shm
+
+tmpfs                16G    0  16G  0% /dev/shm
+
+SQL> startup
+
+ORACLE instance started.
+
+Total System Global Area 9420095488 bytes
+
+Fixed Size                2236248 bytes
+
+Variable Size          2315255976 bytes
+
+Database Buffers        7046430720 bytes
+
+Redo Buffers              56172544 bytes
+
+Database mounted.
+
+Database opened.
+
+SQL> exit

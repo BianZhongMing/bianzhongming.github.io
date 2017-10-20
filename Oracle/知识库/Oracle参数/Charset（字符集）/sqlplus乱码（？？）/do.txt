@@ -1,0 +1,10 @@
+1）进入Windows注册表方法
+点击Windows操作系统的左下角的“开始”（“start”），然后点击“运行”（Run），最后输入“regedit”回车后便可进入到注册表界面。
+
+2）在注册表中按照下面的过程导航，即可定位到NLS_LANG变量
+“My Computer” --> “HKEY_LOCAL_MACHINE” --> “SOFTWARE” --> “ORACLE” --> “KEY-OraDb10g_home1”
+此时在注册表的右侧就能发现“NLS_LANG”的身影了
+
+3）双击“NLS_LANG”，把内容替换为“AMERICAN_AMERICA.ZHS16GBK”即可。
+
+set NLS_LANG=AMERICAN_AMERICA.UTF8

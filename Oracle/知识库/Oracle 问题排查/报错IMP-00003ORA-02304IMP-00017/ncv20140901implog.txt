@@ -1,0 +1,96 @@
+
+连接到: Oracle Database 10g Enterprise Edition Release 10.2.0.1.0 - Production
+With the Partitioning, OLAP and Data Mining options
+
+经由直接路径由 EXPORT:V10.02.01 创建的导出文件
+已经完成 ZHS16GBK 字符集和 AL16UTF16 NCHAR 字符集中的导入
+IMP-00017: 由于 ORACLE 错误 2304, 以下语句失败:
+ "CREATE TYPE "TID" TIMESTAMP '2009-05-26:16:50:39' OID '6ACCFBA89B29A0A6E043"
+ "AC13647AA0A6'   IS OBJECT(TID VARCHAR2(30));"
+ ""
+IMP-00003: 遇到 ORACLE 错误 2304
+ORA-02304: 无效的对象标识符文字
+IMP-00017: 由于 ORACLE 错误 2304, 以下语句失败:
+ "CREATE TYPE "TIDS" TIMESTAMP '2009-05-26:16:51:06' OID '6ACCFBA89B2DA0A6E04"
+ "3AC13647AA0A6'   IS TABLE OF TID;"
+ ""
+IMP-00003: 遇到 ORACLE 错误 2304
+ORA-02304: 无效的对象标识符文字
+IMP-00017: 由于 ORACLE 错误 2304, 以下语句失败:
+ "CREATE TYPE "TTAB" TIMESTAMP '2009-06-15:09:52:55' OID '6C597A8C03443088E04"
+ "3AC13647A3088'   IS OBJECT(F_1 VARCHAR2(300),"
+ "                                      F_2 VARCHAR2(300),"
+ "                                      F_3 VARCHAR2(300),"
+ "                                      F_4 VARCHAR2(300),"
+ "                                      F_5 VARCHAR2(300))"
+IMP-00003: 遇到 ORACLE 错误 2304
+ORA-02304: 无效的对象标识符文字
+IMP-00017: 由于 ORACLE 错误 2304, 以下语句失败:
+ "CREATE TYPE "TTABS" TIMESTAMP '2009-06-15:09:53:26' OID '6C597A8C034C3088E0"
+ "43AC13647A3088'   IS TABLE OF TTAB"
+IMP-00003: 遇到 ORACLE 错误 2304
+ORA-02304: 无效的对象标识符文字
+IMP-00017: 由于 ORACLE 错误 2304, 以下语句失败:
+ "CREATE TYPE "QUEST_SOO_ARCHIVE_DEST_TYP" TIMESTAMP '2010-11-22:12:53:49' OI"
+ "D '959E0AB84D6CD03EE043AC136479D03E'   IS OBJECT ("
+ "    SEQUENCE_NUM                              NUMBER(12,0),"
+ "    DEST_NAME                                 VARCHAR2(50),"
+ "    STATUS                                    VARCHAR2(50),"
+ "    TARGET                                    VARCHAR2(50),"
+ "    DESTINATION                               VARCHAR2(256),"
+ "    DESTINATION_END                           VARCHAR2(256),"
+ "    BINDING                                   VARCHAR2(50),"
+ "    LOG_SEQUENCE                              NUMBER(12,0),"
+ "    REOPEN_SECS                               NUMBER(12,0),"
+ "    TRANSMIT_MODE                             VARCHAR2(50),"
+ "    TYPE                                      VARCHAR2(50),"
+ "    VALID_TYPE                                VARCHAR2(50),"
+ "    TOTAL_MB                                  NUMBER(14,2),"
+ "    FREE_MB                                   NUMBER(14,2),"
+ "    USABLE_FILE_MB                            NUMBER(14,2),"
+ "    IS_ASM                                    VARCHAR2(10),"
+ "    IS_RECOVERY                               VARCHAR2(10),"
+ "    MIN_RECORD                                NUMBER(1,0),"
+ "    TIME_TO_FAILURE                           NUMBER,"
+ "    INSTANCE_NAME                             VARCHAR2(64),"
+ "    LOCAL_TTF                                 NUMBER,"
+ "    LOCAL_MIN_REC                             NUMBER(1,0),"
+ "    ERROR                                     VARCHAR2(256),"
+ "    MESSAGE                                   VARCHAR2(200),"
+ "    ARCHIVER_STATUS                           VARCHAR2(20),"
+ "    DEST_IN_ERROR                             NUMBER(1),"
+ "    LOCAL_DEST_IN_ERROR                       NUMBER(1),"
+ "    ARCHIVER_IN_ERROR                         NUMBER(1),"
+ "    LOCAL_ARCHIVER_ERROR                      NUMBER(1),"
+ "    LOCAL_INSTANCE_NAME                       VARCHAR2(64))"
+IMP-00003: 遇到 ORACLE 错误 2304
+ORA-02304: 无效的对象标识符文字
+IMP-00017: 由于 ORACLE 错误 2304, 以下语句失败:
+ "CREATE TYPE "QUEST_SOO_ARC_DEST_LIST_TYP" TIMESTAMP '2010-11-22:12:53:49' O"
+ "ID '959E0AB84D8DD03EE043AC136479D03E'   IS TABLE OF quest_soo_archive_dest_"
+ "typ"
+IMP-00003: 遇到 ORACLE 错误 2304
+ORA-02304: 无效的对象标识符文字
+IMP-00017: 由于 ORACLE 错误 2304, 以下语句失败:
+ "CREATE TYPE "QUEST_SOO_ALERTTRACE_LINE_TYP" TIMESTAMP '2010-11-22:12:53:50'"
+ " OID '959E0AB84D91D03EE043AC136479D03E'   IS OBJECT (linedate DATE, linetex"
+ "t VARCHAR2(4000), filestatus NUMBER )"
+IMP-00003: 遇到 ORACLE 错误 2304
+ORA-02304: 无效的对象标识符文字
+IMP-00017: 由于 ORACLE 错误 2304, 以下语句失败:
+ "CREATE TYPE "QUEST_SOO_ALERTTRACE_LOG_TYP" TIMESTAMP '2010-11-22:12:53:50' "
+ "OID '959E0AB84D97D03EE043AC136479D03E'   IS TABLE OF quest_soo_alerttrace_l"
+ "ine_typ"
+IMP-00003: 遇到 ORACLE 错误 2304
+ORA-02304: 无效的对象标识符文字
+IMP-00017: 由于 ORACLE 错误 2304, 以下语句失败:
+ "CREATE TYPE "TAB_TYPE" TIMESTAMP '2011-01-21:11:27:44' OID '9A537E0CC2B640F"
+ "4E043AC13647940F4'   is object (a varchar2(40),b varchar2(200),c char(19))"
+IMP-00003: 遇到 ORACLE 错误 2304
+ORA-02304: 无效的对象标识符文字
+IMP-00017: 由于 ORACLE 错误 2304, 以下语句失败:
+ "CREATE TYPE "TT_TAB" TIMESTAMP '2011-01-21:11:27:52' OID '9A53657D8CEA1090E"
+ "043AC1364791090'   is table of TAB_TYPE"
+IMP-00003: 遇到 ORACLE 错误 2304
+ORA-02304: 无效的对象标识符文字
+. . 正在导入表                   "ANALYZE_LOG"导入了         358 行

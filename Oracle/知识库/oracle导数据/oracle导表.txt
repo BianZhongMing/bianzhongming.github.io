@@ -1,0 +1,4 @@
+--导出B开头的表
+exp user/pwd file=D:/1.dmp log=D:/1.log tables=(B%)
+
+

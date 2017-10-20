@@ -1,0 +1,4 @@
+（1）ping（测网络能不能通）；
+（2）telnet 对应端口（默认telnet IP 1521）==>不通：关闭防火墙：chkconfig iptables off后重启。==>实在不行重建数据库
+
+另：在本地导入数据，导入方式采用imp user/password file=filename.dmp fromuser=……（不用SID）的方式；

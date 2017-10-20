@@ -1,0 +1,102 @@
+ORA-27102:out of memory Linux-X86_64 
+Error: 28: No space left on device                                                                                   
+
+
+适用于:
+Oracle Server - Enterprise Edition - Version: 9.2.0.1 and later   [Release: 9.2 and later ]
+Oracle Server - Standard Edition - Version: 9.2.0.1 and later    [Release: 9.2 and later]
+Oracle Server - Enterprise Edition - Version: 9.2.0.1 and later    [Release: 9.2 and later]
+Linux x86-64
+
+    When trying to increase the SGA to approach half available RAM with an Oracle 64-bit version 
+on a Linux 64-bit operating system, even though shmmax is set to match half the amount of  RAM, 
+you get the following error when trying to start the instance:
+    在64位linux下使用64位版本的oracle，即使把shmmax参数的大小设置系统可用内存的一半，
+当把SGA增加到接近一半的系统内存时候，当startup实例的时候，可能得到以下错误
+
+SQL> startup nomount
+ORA-27102: out of memory
+Linux-x86_64 Error: 28: No space left on device
+
+
+Changes
+
+shmall is too small, most likely is set to the default setting of 2097152
+
+$ cat /proc/sys/kernel/shmall
+2097152
+
+
+Cause
+
+shmall is the total amount of shared memory, in pages, that the system can use at one time. 
+
+shmall是系统在所有页同一时间使用的共享内存段的总数
+
+
+Solution
+解决办法
+
+Set shmall equal to the sum of all the SGAs on the system, divided by the page size. 
+设定shmall的值为等同于在系统中所有SGA占用内存大小除以分页大小的得出的最后的值
+
+The page size can be determined using the following command: 
+用以下命令得到分页的大小
+$ getconf PAGE_SIZE 
+4096
+
+For example, if the sum of all the SGAs on the system is 16Gb and the result of 
+'$ getconf PAGE_SIZE' is 4096 (4Kb) then set shmall to 4194304 pages
+
+例如，如果系统中所有SGA的综合为16Gb,然后getconf PAGE_SIZE 得出的结果是4096（4k）
+那么shmall就设定为4194304页
+
+As the root user set the shmall to 4194304 in the /etc/sysctl.conf file:
+用root用户在/etc/sysctl.conf 文件中设定shmall为 4194304
+
+kernel.shmall = 4194304
+
+then run the following command:
+设定后执行以下命令
+
+$ sysctl -p
+$ cat /proc/sys/kernel/shmall
+4194304
+
+
+NOTE:
+
+The above command loads the new value and a reboot is not necessary.
+以上命令无须重启
+Switch back to being the oracle user and retry the startup command.
+切换到oracle用户，重新执行startup命令
+
+Modifying /etc/sysctl.conf is a permanent workaround (applies at boot time). 
+
+修改/etc/sysctl.conf 是一个永久的解决办法（适用于开机时间）
+
+If for some reason you DO NOT want to change the system wide configuration, you can do it 
+on the fly by directly changing the kernel pseudo FS AKA procfs.
+如果出于某种原因不详对系统大范围改动配置，可以直接改变内核的pseudo FS AKA procfs.
+
+# echo "4194304" > /proc/sys/kernel/shmall
+
+Using HUGEPAGES does not alter the calculation for configuring shmall.
+使用大页不会改变配置shmall的计算结果
+
+
+以上翻译仅供参考
+References
+
+NOTE:169706.1 - Oracle Database on Unix AIX,HP-UX,Linux,Mac OS X,Solaris,Tru64 Unix Operating Systems Installation and Configuration Requirements Quick Reference (8.0.5 to 11.2)
+NOTE:851598.1 - Master Note of Linux OS Requirements for Database Server
+NOTE:1351051.2 - Information Center: Install and Configure Database Server/Client Installations
+Oracle Database Products > Oracle Database > Oracle Database > Oracle Server - Enterprise Edition
+Oracle Database Products > Oracle Database > Oracle Database > Oracle Server - Standard Edition
+Oracle Database Products > Oracle Database > Oracle Database > Oracle Server - Enterprise Edition
+
+64-BIT; 64BIT; HUGEPAGES; INSTALL & CONFIGURE; LINUX; NO SPACE LEFT ON DEVICE; OUT OF MEMORY; START INSTANCE
+
+ORA-27102
+
+Copyright (c) 2007, 2010, Oracle. All rights reserved. Legal Notices and Terms of Use | Privacy Statement

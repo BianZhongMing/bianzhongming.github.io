@@ -1,0 +1,4 @@
+IMP-00058: 遇到 ORACLE 错误 12154ORA-12154: TNS: 无法解析指定的连接标识符
+（1）启动监听服务（测试client能否连接上或者sqlplus username/passwd@SID能否登陆或者tnsping SID能否通，不通则新建监听服务）
+（2）检查用户权限及用户对应的表空间默认值为NNC_DATA01；
+（3）增加参数full=y，SID增加_IP（127.0.0.1）;

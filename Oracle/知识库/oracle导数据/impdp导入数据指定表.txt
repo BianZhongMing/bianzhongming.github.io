@@ -1,0 +1,29 @@
+conn /as sysdba;
+
+CREATE USER nc IDENTIFIED BY nc DEFAULT TABLESPACE USERS TEMPORARY TABLESPACE temp;
+GRANT connect,dba to nc;
+create or replace directory dump_dir as '/dump';
+grant read,write on directory dump_dir to nc;
+
+
+conn nc/nc
+create table t1 (x int);
+insert into t1 values (1);
+create table t2 (x int);
+insert into t2 values (2);
+create table t3 (x int);
+insert into t3 values (3);
+commit;
+
+su - oracle
+--全表数据导出
+expdp nc/nc directory=dump_dir dumpfile=nc.dmp logfile=nc.log
+
+drop user nc cascade;
+
+--单独表导入
+impdp nc/nc directory=dump_dir dumpfile=nc.dmp logfile=imp.log remap_schema=nc:nc tables=nc.t1
+e.g. impdp newname/pwd tables=oldname.TABLENAME remap_schema=oldname:newname directory=dmp dumpfile=file.dmp logfile=file.log  
+
+--多张表导入
+impdp nc/nc directory=dump_dir dumpfile=nc.dmp logfile=imp.log remap_schema=nc:nc tables=nc.t1,nc.t2

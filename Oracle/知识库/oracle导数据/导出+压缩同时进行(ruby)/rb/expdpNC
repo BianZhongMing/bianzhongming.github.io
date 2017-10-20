@@ -1,0 +1,21 @@
+t=Time.now
+puts(t)
+dir='/back/ncv502/'
+fname=t.strftime("%Y%m%d")
+lname=t.strftime("%H:%M:%S")
+cmd='find /back/ncv502 -mtime +2 -name "*.log" -exec rm {} \;'
+system(cmd)
+cmd='find /back/ncv502 -mtime +2 -name "*.dmp.gz" -exec rm {} \;'
+system(cmd)
+cmd='find /backup/rman -mtime +2 -name "*.bak" -exec rm {} \;'
+system(cmd)
+system("mknod /back/ncv502/expipe p")
+system("nohup gzip < /back/ncv502/expipe > #{dir}ncv#{fname}.dmp.gz & ")
+system(" expdp ncv502/tesiro_nc502 schemas=ncv502 directory=dump_file dumpfile=expipe  logfile=ncv5021230.log version=10.2.0.4.0  ")
+system("rm -rf /back/ncv502/expipe")
+
+
+
+
+
+

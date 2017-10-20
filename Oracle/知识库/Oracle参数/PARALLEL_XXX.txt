@@ -1,0 +1,29 @@
+PARALLEL_MAX_SERVERS参数用于设置系统中允许的最大并行进程数。
+这个参数在9i及更老的版本中是静态参数，修改需要重启。10g以后可以动态修改生效。如果是RAC环境，则各节点应当设置成同样的值。
+
+对于9i
+1.如果PARALLEL_AUTOMATIC_TUNING=FALSE
+PARALLEL_MAX_SERVERS=5
+2.如果PARALLEL_AUTOMATIC_TUNING=TRUE
+PARALLEL_MAX_SERVERS=CPU_COUNT x 10
+9i中PARALLEL_AUTOMATIC_TUNING默认为FALSE，所以PARALLEL_MAX_SERVERS默认为5
+
+对于10g
+1.如果PGA_AGGREGATE_TARGET >0
+PARALLEL_MAX_SERVERS=CPU_COUNT x PARALLEL_THREADS_PER_CPU x 10  --10倍的cpu*每核线程
+2.如果PGA_AGGREGATE_TARGET=0
+PARALLEL_MAX_SERVERS=CPU_COUNT x PARALLEL_THREADS_PER_CPU x 5
+
+假如一台机器有50颗CPU，安装的是Oracle9i，则PARALLEL_MAX_SERVERS默认值为5，升级到Oracle10g以后，
+则PARALLEL_MAX_SERVERS默认值会变为1000，这是值得注意的变化，通常需要根据需要来重新设置该参数。
+
+对于OLTP库，不宜设置过大的PARALLEL_MAX_SERVERS，因为并行操作在OLTP中可用的场景不多，一般也就是在创建和调整索引的时候会用到，
+并行扫描使用direct path read，会导致扫描对象的segment checkpoint，如果当时系统非常繁忙，后果可能非常严重。
+
+【查询】
+SQL> show parameter parallel;
+parallel_max_servers                 integer     8
+parallel_min_percent                 integer     0
+parallel_min_servers                 integer     0
+【修改】
+alter system set parallel_max_servers =10 

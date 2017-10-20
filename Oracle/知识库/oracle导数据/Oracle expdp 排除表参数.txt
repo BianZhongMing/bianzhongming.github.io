@@ -1,0 +1,28 @@
+创建directory数据库对象，并将读写权限授予用户
+conn /as sysdba;
+create or replace directory dump_dir as 'C:\DUMP';
+grant read,write on directory dump_dir to nc;
+
+以用户创建三张表T1、T2和T3，每张表中初始化一条数据
+conn NC/nc
+create table t1 (x int);
+insert into t1 values (1);
+create table t2 (x int);
+insert into t2 values (2);
+create table t3 (x int);
+insert into t3 values (3);
+commit;
+
+先全用户导出
+expdp NC/nc@orcl directory=dump_dir dumpfile=nc.dmp logfile=nc.log
+
+排除T1表进行备份
+expdp NC/nc@orcl directory=dump_dir dumpfile=nc1.dmp logfile=nc1.log EXCLUDE=TABLE:\"IN\(\'T1\'\)\"
+
+排除多张表进行备份
+以排除表T1和T2两张表为例进行演示
+expdp NC/nc@orcl directory=dump_dir dumpfile=nc2.dmp logfile=nc2.log EXCLUDE=TABLE:\"IN\(\'T1\',\'T2\'\)\"
+
+导出T开头的表
+expdp test/1 directory=dump_dir dumpfile=nc2.dmp logfile=nc2.log  include=table:\" like \'T%\' \"
+--导出T,E开头的表测试

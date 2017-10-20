@@ -1,0 +1,6 @@
+ORA-39001,ORA-39000,ORA-39143
+
+ORA-39001: invalid argument value
+ORA-39000: bad dump file specification
+ORA-39143: dump file "D:\dump\oasur_20141218.dmp" may be an original export dump file
+--可能原因：1.数据库导出版本问题；2。导出方式问题（impdp/imp）

@@ -1,0 +1,10 @@
+ORA-28000: the account is locked
+第一步：使用PL/SQL，登录名为system,数据库名称不变，选择类型的时候把Normal修改为Sysdba;
+第二步：选择myjob,查看users;
+第三步：选择system,右击点击“编辑”；
+第四步：修改密码，把“帐户被锁住”的勾去掉；
+第五步：点击“应用”再点击“关闭”；
+第六步：重新登录就可以通过验证了；
+第二种
+ALTER USER username ACCOUNT UNLOCK;
+commit;

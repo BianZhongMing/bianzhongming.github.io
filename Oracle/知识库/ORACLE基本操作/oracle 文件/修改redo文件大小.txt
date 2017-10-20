@@ -1,0 +1,154 @@
+在线修改redo.log文件的大小
+关键字: 在线修改redo.log文件的大小 
+1.查看当前日志组成员： 
+SQL> select member from v$logfile; 
+ 
+MEMBER 
+------------------------------------------------------ 
+C:\ORACLE\PRODUCT\10.2.0\ORADATA\FYDB\REDO01.LOG 
+C:\ORACLE\PRODUCT\10.2.0\ORADATA\FYDB\REDO02.LOG 
+C:\ORACLE\PRODUCT\10.2.0\ORADATA\FYDB\REDO03.LOG 
+2.查看当前日志组状态： 
+SQL> select group#,members,bytes/1024/1024,status from v$log; 
+ 
+    GROUP#    MEMBERS BYTES/1024/1024 STATUS 
+---------- ---------- --------------- ---------------- 
+         1          1              50 INACTIVE 
+         2          1              50 INACTIVE 
+         3          1              50 CURRENT 
+        
+现有三个日志组，每个组内有一个成员，每个成员的大小为50MB，现在想把此三个日志组的成员大小都改为100MB ，步骤如下： 
+ 
+1、创建2个新的日志组 
+SQL> alter database add logfile group 4 ('C:\ORACLE\PRODUCT\10.2.0\ORADATA\FYDB\REDO04.LOG') size 100MB; 
+SQL> alter database add logfile group 5 ('C:\ORACLE\PRODUCT\10.2.0\ORADATA\FYDB\REDO05.LOG') size 100MB; 
+ 
+2、切换当前日志到新的日志组 
+SQL> alter system switch logfile; 
+SQL> alter system switch logfile; 
+SQL> select group#,members,bytes/1024/1024,status from v$log; 
+ 
+    GROUP#    MEMBERS BYTES/1024/1024 STATUS 
+---------- ---------- --------------- ---------------- 
+         1          1              50 ACTIVE 
+         2          1              50 ACTIVE 
+         3          1              50 ACTIVE 
+         4          1             100 CURRENT 
+         5          1             100 ACTIVE 
+ 
+3、删除旧的日志组 
+SQL> alter database drop logfile group 1; 
+SQL> alter database drop logfile group 2; 
+SQL> alter database drop logfile group 3; 
+ 
+4、操作系统下删除原日志组1、2、3中的文件REDO01.LOG、REDO02.LOG、REDO03.LOG。 
+ 
+5、重建日志组1、2、3 
+SQL> alter database add logfile group 1 ('C:\ORACLE\PRODUCT\10.2.0\ORADATA\FYDB\REDO01.LOG') size 100MB; 
+SQL> alter database add logfile group 2 ('C:\ORACLE\PRODUCT\10.2.0\ORADATA\FYDB\REDO02.LOG') size 100MB; 
+SQL> alter database add logfile group 3 ('C:\ORACLE\PRODUCT\10.2.0\ORADATA\FYDB\REDO03.LOG') size 100MB; 
+ 
+6、切换日志组 
+SQL> alter system switch logfile; 
+SQL> alter system switch logfile; 
+ 
+7、删除中间过渡用的日志组4、5 
+SQL> alter database drop logfile group 4; 
+SQL> alter database drop logfile group 5; 
+SQL> select group#,status from v$log; 
+ 
+    GROUP# STATUS 
+---------- ---------------- 
+         1 UNUSED 
+         2 UNUSED 
+         3 UNUSED 
+         4 INACTIVE 
+         5 CURRENT 
+ 
+8、到操作系统下删除原日志组4、5中的文件 
+ 
+9、备份当前的最新的控制文件 
+SQL> conn / as sysdba 
+SQL> alter database backup controlfile to trace resetlogs; 
+ 
+(注意：如果为安全考虑每个group可以多加几个文件） 
+============================== 
+跟redo logfile有关的其它数据库参数     
+1、log_buffer 
+   log_buffer是ORACLE SGA的一部分, 所有DML命令修改的数据块先放在log_buffer里, 如果满了或者到了check_point时候通过lgwr后台进程写 
+   到redo logfile里去。它不能设得太大，这样在意外发生时会丢失很多改变过的数据。它最好不要大于512K或者128K*CPU个数。 
+我们可以用下面的SQL语句检测log_buffer使用情况:        
+   SQL> select rbar.name,rbar.value,re.name,re.value,(rbar.value*100)/re.value||'%' "radio" 
+from v$sysstat rbar,v$sysstat re 
+where rbar.name='redo buffer allocation retries' 
+and re.name='redo entries'; 
+       这个比率小于1%才好，否则增加log_buffer的大小 
+2、log_checkpoint_interval 
+   Oracle8.1 版本后log_checkpoint_interval指的是两次checkpoint之间操作系统数据块的个数。 
+   checkpoint时Oracle把内存里修改过的数据块用DBWR写到物理文件，用LGWR写到日志和控制文件。 
+   一般UNIX操作系统的数据块为 512 bytes。 
+   从性能优化来说log_checkpoint_interval = redo logfile size bytes / 512 bytes 
+3、log_checkpoint_timeout 
+   Oracle8.1 版本后log_checkpoint_timeout指的是两次checkpoint之间时间秒数。 
+   Oracle建议不用这个参数来控制，因为事务(transaction)大小不是按时间等量分布的。 
+log_checkpoint_timeout = 0 
+log_checkpoint_timeout = 900 
+ 
+Redo Log Buffer 
+redo log buffer 可以循环使用，存放数据库改变牵涉的信息，其内部放的是redo entry。 
+redo entry存放的是INSERT, UPDATE, DELETE, CREATE, ALTER, DROP 等操作对数据库的改变信息,这些信息在recovery的时候是很重要。这些redo entry 
+由oracle server进程从用户内存放到redo buffer。 
+ 
+LGWR(Log writer) 
+LGWR(Log writer)是oracle启动时候必须启动的进程，它负责把redo log buffer中的redo entry写到redo log文件中。 
+在如下情况下写文件： 
+- redo log buffer 三分之一满了 
+- 达到某时间点 
+- 在 DBWR w把修改的数据块写到数据文件之前写redo log file 
+- 事务commit的时候 
+- 在数据库做归档redo log 文件的时候 
+ 
+Redo Log file 
+redo log就是存放redo log 信息的文件了，至少有两个redo log 组，oracle循环使用之。当然推荐有更多的redo log 组。既然是循环使用redo log， 
+必然会有一个log switch的过程。 
+ 
+log switch发生在： 
+- log file 已经写满了 
+- 使用了ALTER SYSTEM SWITCH LOGFILE 命令 
+ 
+在log switch 的时候自动会做checkpoint。 
+ 
+只要redo log组里面有一个redo log file可以用，就能进行log switch。当然如果redo log file坏了，LGWR肯定会记录到 trace和alert文件. 
+ 
+关于redo log的设置 
+一般至少两组redo log 文件， 
+每组中的redo log文件最好在不同的磁盘上，防止一起损坏。 
+每组中的redo log文件必须大小一致,它们是同时修改的。 
+不同组的redo log文件大小不一定一致。 
+每组的redo log文件数目必须一致。 
+ 
+ 
+修改redo log的位置 
+- 看看当前的redo log文件是不是正在使用，如果在使用如下命令 
+ALTER SYSTEM SWITCH LOGFILE; 
+- 把该文件copy到你想要放到位置 
+- ALTER DATABASE RENAME FILE ’filename’ TO filename’ 
+ 
+增加redo log 文件 
+ALTER DATABASE [database] 
+ADD LOGFILE MEMBER 
+[ ’filename’ [REUSE] 
+[, ’filename’ [REUSE]]... 
+TO {GROUP integer 
+|(’filename’[, ’filename’]...) 
+} 
+ 
+删除redo log 文件 
+如果redo log 文件是invalid状态，可以删除之 
+ALTER DATABASE [database] DROP LOGFILE MEMBER ’filename’[, ’filename’]... 
+ 
+相关数据字典 
+察看 
+v$log 
+v$logfile 
+v$log_history 

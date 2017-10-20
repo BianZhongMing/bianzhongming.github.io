@@ -1,0 +1,1 @@
+42 2 * * * su - oracle -c "/usr/local/ruby/bin/ruby /home/oracle/scripts/rb/expNC"

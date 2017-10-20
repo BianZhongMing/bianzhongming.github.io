@@ -1,0 +1,2 @@
+--以用户身份登录，删除GL开头的表
+select 'drop table '||table_name||' purge;' from user_tables where table_name like 'GL%';

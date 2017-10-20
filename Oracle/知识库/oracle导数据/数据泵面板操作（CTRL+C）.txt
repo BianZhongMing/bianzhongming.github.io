@@ -1,0 +1,10 @@
+导出 的相关命令使用： 
+   1）Ctrl+C组合键：在执行过程中，可以按Ctrl+C组合键退出当前交互模式，退出之后，导出操作不会停止（imp/exp会终止）
+   2）Export> status               --查看当前JOB的状态及相关信息
+   3）Export> stop_job             --暂停JOB（暂停job后会退出expor模式）
+   4）重新进入export模式下：C:\Documents and Settings\Administrator>expdp lttfm/lttfm attach=lttfm.my_job1 --语句后面不带分号
+   5）Export> start_job            --打开暂停的JOB（并未开始重新执行）
+   6）Export> continue_client      --通过此命令回到Ctrl+C前的界面
+   7）Export> kill_job             --取消当前的JOB并释放相关客户会话（将job删除同时删除dmp文件）
+   8）Export> exit_client          --通过此命令退出export模式（通过4）可再进入export模式下）
+ 注： 导出完成后job自动卸载

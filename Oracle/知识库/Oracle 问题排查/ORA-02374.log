@@ -1,0 +1,4 @@
+ORA-02374: conversion error loading table "NCDATA"."IA_BILL_B"
+ORA-12899: value too large for column VDEF3 (actual: 107, maximum: 100)
+ORA-02372: data for row: VDEF3 : 0X'30313533323837A3AC30313533323838A3AC30313533323839'
+源库和目标库的字符集不一样，导入的时候虽然完成了，但有一些字段在字符转换的时候报出字段长度不够。

@@ -1,0 +1,5 @@
+加快速度：
+imp ignore=y
+impdp exclude=TABLE_STATISTICS
+
+表空间分配充足，自动扩展很花费时间

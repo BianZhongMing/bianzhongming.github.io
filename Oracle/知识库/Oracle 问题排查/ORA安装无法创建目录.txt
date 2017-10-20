@@ -1,0 +1,2 @@
+无法创建目录“F:\oracle\product\10.2.0\db_1\cfgtoollogs\dbca\***
+==》右击，以管理员权限运行

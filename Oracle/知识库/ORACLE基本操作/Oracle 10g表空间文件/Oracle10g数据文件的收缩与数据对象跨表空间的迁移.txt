@@ -1,0 +1,210 @@
+1.Oracle10g数据库文件的收缩：
+
+
+  1.1 问题：
+
+    一个数据库里面有上百万条数据，使用Delete语句删除大部分数据后，数据库文件所占空间并不会缩小释放多余的空间。
+
+    如使用RESIZE语句对数据文件大小做调整，如下：
+
+    >ALTER DATABASE DATAFILE 'D:\Oracle10g\oradata\ORDB\NEWDB.ORA' RESIZE 100M;
+
+    则会报一个错误：ORA-03297: 文件包含在请求的 RESIZE 值以外使用的数据。
+
+    这主要涉及到Oracle的逻辑存储和段空间管理以及数据库块中的数据分布。
+
+    Oralce有一个High Water Mark（高水位线），它表示Oracle对象使用空间最高水位线。
+
+    当插入了数据以后，HWM就会上涨；Delete语句删除数据后，HWH并没有降低。
+
+    HWH数据库块分布在调整范围之外，此时使用RESIZE命令会报错。
+
+  1.2 方法：
+
+    网上查到资料说通过Move Tablespace移动表和索引后，可以重置表的HWH，然后再使用Resize就可以缩减数据库文件。
+  
+    但我在Oracle10g中尝试多次，都没有成功。另外，数据库如果有Long型的字段，是不能使用Move命令的。 
+  
+    好在是Oracle10g，有shrink！ :)
+
+    Shrink的语法如下：
+ 
+    --------------------
+
+    alter table <table_name> shrink space [ <null> | compact | cascade ];
+    alter table <table_name> shrink space compcat;
+    说明：收缩表，移动块中数据位置到一起，但 High Water Mark 保持不变 
+
+    alter table <tablespace_name> shrink space;
+    说明：收缩表，降低 High Water Mark
+
+    alter table <tablespace_name> shrink space cascade;
+    说明：收缩表，降低 High Water Mark，并且把相关索引也收缩一下。
+
+    alter index idxname shrink space;
+    说明：回缩索引
+
+    --------------------
+
+  1.3 操作：
+
+    对所有表空间中的所有表执行一次shrink命令，需要根据shrink语法，构造shrink命令。
+
+    此时，为了构建shrink命令，可以使用如下SQL语句来查询表空间数据库文件的File_ID:
+
+    ---------------------
+
+    select * from dba_data_files;
+
+    ---------------------
+
+
+    另外，在执行shrink前，必须开启数据表的行迁移功能，SQL语句如下：
+
+    ---------------------
+
+    alter table Tbl_Name enable row movement;
+
+    --------------------- 
+    注意：该SQL语句会造成引用表Tbl_Name的对象(如存储过程、包、视图等)变为无效，后续需要重新编译一次确认是否有效。
+
+
+    构造shrink命令，建立create_shrink.sql文件，其内容如下：
+
+    -------------------
+    set heading off;
+    set echo off;
+    set feedback off;
+    set termout on;
+    spool c:\shrink.sql;
+    select 'alter table THAMS.'|| table_name || ' enable row movement; ' from user_tables where tablespace_name='THAMS';
+    select 'alter table THAMS.'|| table_name || ' shrink space CASCADE;' from user_tables where tablespace_name='THAMS';
+    select 'alter index THAMS.'|| segment_name || ' shrink space;' from dba_extents where segment_type='INDEX' and file_id=14;
+    spool off;
+    -------------------
+
+    以表空间的默认用户THAMS登录数据库，成功执行create_shrink.sql后，得到shrink.sql文件。
+
+    以sys/system身份登录数据库，执行shrink.sql文件后，在OEMC中查看表空间，会发现数据库表空间的“已使用”比例大大下降。
+   
+    此时，再经过EXP/IMP后，会得到一个占用空间很小的数据库文件。
+
+
+2.Oracle10g数据跨表空间迁移 
+
+
+    资料上说，可以通过Move Tablespace来改变HWH，从而完成Resize Datafile。但是我在Oracle10g中试验没有成功。
+
+    但是通过Move可以把数据对象做到跨表空间的迁移，尤其对BLOB、CLOB这样的二进制大字段。
+  
+    需要注意：Move命令不支持Long型字段。
+
+
+   2.1 可能用到的Oracle SQL语句：
+
+       --查找数据库文件对应的File_ID
+       select * from dba_data_files;
+
+       --查询当前表空间中的所有表
+       select distinct segment_name  from dba_extents where segment_type='TABLE' and file_id=14;
+
+
+       --查询当前表空间中的所有索引
+       select distinct segment_name from dba_extents where segment_type='INDEX' and file_id=14;
+
+
+       --如果有分区表，则查询当前表空间中的所有的分区表
+       select distinct segment_name from dba_extents where segment_type='TABLE PARTITION' and file_id=14;
+
+          
+       --查询当前表空间中的所有分区表的索引
+       select distinct segment_name from dba_extents where segment_type='INDEX PARTITION' and file_id=14;
+
+
+      --移动表到指定表空间
+      alter table Tbl_Name move tablespace New_TableSpaceName;
+
+
+      --重建表的索引
+      alter index Index_Name rebuild tablespace New_TableSpaceName;
+
+
+      --移动BLOB、CLOB的字段到指定表空间
+      alter table Tbl_Name move lob(BLOB1,BLOB2,BLOB3,......) store as (tablespace  New_TableSpaceName);
+
+      
+      --移动BLOB、CLOB的字段语法
+      --alter table table_name move [tablespace tbs_name] lob(lob_field1,lob_field2) store as (tablespace new_tbs_name);
+
+      --如果LOB字段在分区表中，则增加partition关键字，如
+      --alter table table_name move [partition partname] [tablespace tbs_name] lob(field) store as (tablespace new_tbs_name);
+
+   2.2 执行Oracle数据对象迁移操作：
+
+       根据上面所列的SQL语句，构造数据对象跨表空间的move命令语句，把数据对象从THAMS表空间迁移至NEWSPACE。注意，NEWSPACE需要在操作前建好。
+
+
+       2.2.1 构造移动表的move命令，建立create_move_table.sql文件，其内容如下：
+
+       -------------------
+
+        alter tablespace THAMS coalesce;
+        set heading off;
+        set echo off;
+        set feedback off;
+        set termout on;
+        spool c:\move_table.sql;
+        --移动表
+        select distinct 'alter table THAMS.'|| segment_name || ' move tablespace NEWSPACE;' from dba_extents where segment_type='TABLE' and file_id=14;
+        --移动索引
+        select distinct 'alter index THAMS.'|| segment_name || ' rebuild tablespace NEWSPACE;' from dba_extents where segment_type='INDEX' and file_id=14;
+        
+        --如果有分区表则需要移动分区表和分区表索引
+        --移动分区表
+        --select distinct 'alter table '|| segment_name || ' move partition '|| partition_name || ' tablespace NEWSPACE;' from dba_extents where segment_type='TABLE PARTITION' and file_id=14;
+        --移动分区索引
+        --select distinct 'alter index '|| segment_name || ' rebuild partition '|| partition_name || ' tablespace NEWSPACE;' from dba_extents where segment_type='INDEX PARTITION' and file_id=14;
+        
+        spool off;
+
+       -------------------
+
+       以sys/system身份登录数据库，成功执行create_move_table.sql后，得到move_table.sql文件。
+
+       2.2.2 构造移动BLOB、CLOB字段的move命令，建立create_move_blob.sql文件，其内容如下：
+
+       -------------------
+
+        set heading off;
+        set echo off;
+        set feedback off;
+        set termout on;
+        spool c:\move_blob.sql;
+        --移动BLOB字段
+        select 'alter table THAMS.'|| TABLE_NAME || ' move lob('|| COLUMN_NAME||') store as (tablespace NEWSPACE);' from user_tab_columns where DATA_TYPE='BLOB';
+        spool off;
+
+       -------------------
+
+       以表空间的默认用户THAMS登录数据库，成功执行create_move_blob.sql后，得到move_blob.sql;文件。
+
+       2.2.3 执行跨表空间数据迁移
+
+       以sys/system身份登录数据库，分布执行create_move_table.sql文件和create_move_blob.sql文件文件。
+
+
+       完成Oracle数据跨表空间的迁移。此时可以把名字是THAMS的表空间删除。 
+
+
+       
+       2.2.3 在执行*.sql时，均可在最前面加上如下命令：
+
+        -------------------
+         set heading off;
+         set echo off;
+         set feedback off;
+         set termout on;
+        -------------------
+
+        这样在命令行模式下，执行*.sql时不会显示执行操作的命令，提高执行效率。
+本文来自CSDN博客，转载请标明出处：http://blog.csdn.net/jrq/archive/2010/05/13/5584996.aspx

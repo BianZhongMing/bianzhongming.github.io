@@ -1,0 +1,49 @@
+1.登陆数据库
+
+2.查询表文件物理路径，记录原路径
+-----------
+select tablespace_name,  file_name
+from dba_data_files
+order by tablespace_name;
+-----------
+
+3.重新加载数据库
+-----------
+shutdown immediate;
+startup;
+alter tablespace NNC_DATA01 offline;
+alter tablespace NNC_DATA02 offline;
+alter tablespace NNC_DATA03 offline;
+alter tablespace NNC_INDEX01 offline;
+alter tablespace NNC_INDEX02 offline;
+alter tablespace NNC_INDEX03 offline;
+-----------
+
+4.复制表空间文件到新路径
+
+5.修改表空间文件路径
+-----------
+alter tablespace NNC_DATA01 rename datafile 'C:\oracle\product\10.2.0\oradata\orcl\NNC_DATA01.ORA' to 'E:\oradata\orcl\NNC_DATA01.ORA'; 
+alter tablespace NNC_DATA02 rename datafile 'C:\oracle\product\10.2.0\oradata\orcl\NNC_DATA02.ORA' to 'E:\oradata\orcl\NNC_DATA02.ORA'; 
+alter tablespace NNC_DATA03 rename datafile 'C:\oracle\product\10.2.0\oradata\orcl\NNC_DATA03.ORA' to 'E:\oradata\orcl\NNC_DATA03.ORA'; 
+alter tablespace NNC_INDEX01 rename datafile 'C:\oracle\product\10.2.0\oradata\orcl\NNC_INDEX01.ORA' to 'E:\oradata\orcl\NNC_INDEX01.ORA'; 
+alter tablespace NNC_INDEX02 rename datafile 'C:\oracle\product\10.2.0\oradata\orcl\NNC_INDEX02.ORA' to 'E:\oradata\orcl\NNC_INDEX02.ORA'; 
+alter tablespace NNC_INDEX03 rename datafile 'C:\oracle\product\10.2.0\oradata\orcl\NNC_INDEX03.ORA' to 'E:\oradata\orcl\NNC_INDEX03.ORA'; 
+-----------
+
+6.打开数据库
+-----------
+alter tablespace NNC_DATA01 online;
+alter tablespace NNC_DATA02 online;
+alter tablespace NNC_DATA03 online;
+alter tablespace NNC_INDEX01 online;
+alter tablespace NNC_INDEX02 online;
+alter tablespace NNC_INDEX03 online;
+-----------
+
+7.查询表文件物理路径，确认已经修改生效，删除旧的表数据文件。
+-----------
+select tablespace_name,  file_name
+from dba_data_files
+order by tablespace_name;
+-----------

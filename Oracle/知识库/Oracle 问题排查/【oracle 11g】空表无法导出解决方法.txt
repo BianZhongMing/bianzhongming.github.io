@@ -1,0 +1,26 @@
+ORACLE11g空表无法导出解决方法
+系统环境:
+Oracle 11g
+问题描述
+11G中有个新特性，当表无数据时，不分配segment，以节省空间
+
+ 解决方法：
+该问题有三种解决方法：
+方法一：insert一行，再rollback就产生segment了。
+该方法是在在空表中插入数据，再删除，则产生segment。导出时则可导出空表。
+弊端：该方式如果空表很多，工作量很大。
+
+方法二：设置deferred_segment_creation 参数 
+show parameter deferred_segment_creation  
+NAME TYPE VALUE 
+------------------------------------ -----------
+deferred_segment_creation boolean TRUE 
+SQL> alter system set deferred_segment_creation=false;  
+系统已更改。  
+SQL> show parameter deferred_segment_creation  
+NAME TYPE VALUE 
+------------------------------------ ----------- 
+deferred_segment_creation boolean FALSE
+ 
+该参数值默认是TRUE，当改为FALSE时，无论是空表还是非空表，都分配segment。
+需注意的是：该值设置后对以前导入的空表不产生作用，仍不能导出，只能对后面新增的表产生作用。

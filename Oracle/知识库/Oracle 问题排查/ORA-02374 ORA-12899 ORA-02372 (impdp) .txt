@@ -1,0 +1,9 @@
+今天使用数据泵导入数据的时候报：
+ORA-02374: conversion error loading table "HR2QAS01"."V_PS_STAFFPOS_REPTO_PUB_MT"
+ORA-12899: value too large for column POST_NAME (actual: 57, maximum: 50)
+ORA-02372: data for row: POST_NAME : 0X'CBF3D6AFB2FAC6B7BFAAB7A2BCB0B9A9D3A6B9DCC0EDD7A8D2'
+发现原库字符集（16GDK）和目标数据库字符集(UTF-8)不同。
+为了导入成功，我的解决办法是：
+truncate table V_PS_STAFFPOS_REPTO_PUB_MT;
+alter table V_PS_STAFFPOS_REPTO_PUB_MT modify(POST_NAME VARCHAR2(60));
+然后再重新导入（只导入数据);

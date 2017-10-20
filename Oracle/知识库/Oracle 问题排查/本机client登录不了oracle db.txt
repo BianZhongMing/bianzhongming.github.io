@@ -1,0 +1,3 @@
+修改listener.ora和tnsnames.ora:
+
+(ADDRESS = (PROTOCOL = TCP)(HOST = 本机计算机名/固定IP【127.0.0.1不行！】)(PORT = 1521))

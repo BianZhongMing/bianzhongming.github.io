@@ -1,0 +1,7 @@
+imp的时候把undo临时设大，不用commit=y。
+回滚段建大点
+buffer加大点
+
+卡住：检查字符集
+export NLS_LANG=AMERICAN_AMERICA.ZHS16GBK
+set NLS_LANG=AMERICAN_AMERICA.ZHS16GBK

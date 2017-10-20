@@ -1,0 +1,65 @@
+network_link 
+--服务端准备测试数据（100.95）：
+exp ncv502/ncv502 file=C:\BD_CORP.dmp log=C:\BD_CORP.log tables=BD_CORP
+CREATE USER TEST15 IDENTIFIED BY TEST15 DEFAULT TABLESPACE NNC_DATA01 TEMPORARY TABLESPACE temp;
+GRANT connect,dba to TEST15 ;
+imp TEST15/TEST15 file=C:\BD_CORP.dmp log=C:\BD_CORPiii.log fromuser=ncv502 touser=TEST15 ignore=y
+
+--客户端（远程）
+（1）配监听
+TEST95 =
+  (DESCRIPTION =
+    (ADDRESS = (PROTOCOL = TCP)(HOST = 172.19.100.95)(PORT = 1521))
+    (CONNECT_DATA =
+      (SERVER = DEDICATED)
+      (SERVICE_NAME = orcl)
+    )
+  )
+（2）创建到服务端的dblink 
+conn / as sysdba
+CREATE USER testpub IDENTIFIED BY testpub DEFAULT TABLESPACE USERS TEMPORARY TABLESPACE temp;
+GRANT connect,dba to testpub ;
+conn testpub/testpub 
+create database link testLink connect to  TEST15 identified by TEST15 using 'TEST95' ;
+  --create database link 【link_name】 connect to  【username】 identified by 【password using】 '【connect_string】' ;//username和password是server端的 
+测试dblink是否创建成功:
+select unitname from bd_corp@testLink;   
+（3）创建directory对象 
+conn / as sysdba 
+create or replace directory dmp_dir as 'C:\';
+grant read,write on directory dmp_dir to testpub; 
+（3）导出/导入操作
+expdp testpub/testpub directory=dmp_dir network_link=testLink dumpfile=autobak1.dmp,autobak2.dmp logfile=expdpppp.log parallel=2 include=TABLE:\"IN\(\'BD_CORP\'\)\"
+--oracle版本尽量保持一致
+
+
+138---121 oracle版本一致
+（1）配监听
+NC =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+      (ADDRESS = (PROTOCOL = TCP)(HOST = 172.19.100.121)(PORT = 1521))
+      (ADDRESS = (PROTOCOL = TCP)(HOST = 172.19.100.122)(PORT = 1521))
+      (LOAD_BALANCE = yes)
+    )
+    (CONNECT_DATA =
+      (SERVER = DEDICATED)
+      (SERVICE_NAME = nc)
+    )
+  )
+（2）创建到服务端的dblink 
+conn / as sysdba 
+CREATE USER testpub IDENTIFIED BY testpub DEFAULT TABLESPACE USERS TEMPORARY TABLESPACE temp;
+GRANT connect,dba to testpub ;
+conn testpub/testpub 
+create database link testLink connect to ncv502 identified by tesiro_nc502 using 'NC' ;
+select unitname from bd_corp@testLink;   
+（3）创建directory对象 
+conn / as sysdba 
+create or replace directory dmp_dir as 'C:\';
+grant read,write on directory dmp_dir to testpub; 
+（3）导出/导入操作
+expdp testpub/testpub directory=dmp_dir network_link=testLink dumpfile=autobak1.dmp,autobak2.dmp logfile=expdpppp.log parallel=2 include=TABLE:\"IN\(\'BD_CORP\'\)\"
+
+--不生成dmp文件而直接导入一个数据库
+impdp testpub/testpub network_link=testLink directory=dmp_dir logfile=impdpppp.log remap_schema=ncv502:testpub include=TABLE:\"IN\(\'BD_CORP\'\)\"

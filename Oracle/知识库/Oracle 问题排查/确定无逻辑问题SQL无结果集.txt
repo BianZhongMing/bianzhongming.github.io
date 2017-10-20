@@ -1,0 +1,4 @@
+存在不可见全角字符，如[　]
+
+案例：
+select　unitname　,　unitcode　 from　 bd_corp

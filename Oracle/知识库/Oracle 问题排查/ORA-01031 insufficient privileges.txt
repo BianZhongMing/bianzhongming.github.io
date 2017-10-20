@@ -1,0 +1,180 @@
+sqlplus "/ as sysdba" 连不上，报ora-01031:insufficient privileges解决方法
+ 
+注意多个数据库实例时候，set　ORACLE_SID='',
+1、检查sqlnet.ora（WINDOWS下位于%ORACLE_HOME%NETWORKADMIN目录）是否包含这句：SQLNET.AUTHENTICATION_SERVICES=(NTS)，没有的话加上
+ 
+2、检查登陆windows的用户(administrator或安装oracle时候使用的用户)是不是在包含在ORA_DBA组中，域用户没有连上域服务器时就可能出现这种现象。
+3. 要保证 remote_login_passwordfile 参数 = EXCLUSIVE .
+4. 看看是否需要使用orapassw生成口令文件 .
+
+一种解决方法案例：
+1、检查系统参数：
+SQL> show parameter password
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+remote_login_passwordfile            string      EXCLUSIVE
+2、
+select * from v$pwfile_users;
+SQL>
+为空
+3、
+SQL> grant sysdba to sys;
+grant sysdba to sys
+*
+ERROR at line 1:
+ORA-01994: GRANT failed: password file missing or disabled
+4、建立password文件
+D:/>orapwd file="D:/oracle/product/10g/db_1/database/PWDoratest.ora" password=gp
+oswong entries=10
+5、
+SQL> select * from v$pwfile_users;
+USERNAME                       SYSDB SYSOP
+------------------------------ ----- -----
+SYS                            TRUE  TRUE
+SYS正常显示出来。
+6、重新在远程以SYSDBA登录，可正常使用。
+
+--Linux
+--重建密码文件，重设sys密码
+orapwd file=$ORACLE_HOME/dbs/orapw$orcl password=orange entries=10 force=y
+alter user sys identified by "sys";
+
+
+如果口令文件创建的有问题，也是会报如下的错误：
+ora-01031:insufficient privileges
+口令文件的命名格式应为orapwsid，并且sid是区分大小写的。由于Target Database连接Auxiliary Database时需要验证口令，
+如果违反了以上规则，将会提示ORA-01031: insufficient privileges。
+
+我在用linux创建duplicate数据库的时候 就是因为口令文件创建的路径和名称不对才遇到这个错误
+
+-----end-------
+
+文章2
+############################################# 
+ # 
+ # NAME: troubleshoot connect internal.txt 
+ # 
+ # DESCRIPTION: 
+ # connect internal 
+ # connect / as sysdba 要口令问题： 
+# refer (METALINK,ORACLEDOC), 
+ # metalink search words(connect internal) 
+ # NOTE: 
+ # 
+ # modifiy (MM/DD/YY) AUTHOR 
+ # 05/03/03 ZORROL 
+ ############################################# 
+———————————————————— 
+1。检查sqlnet.ora 文件. 
+sqlnet.ora 文件损坏或格式不对可以导致出现该问题。 
+sqlnet.ora 文件可能存放路径为 
+$TNS_ADMIN/sqlnet.ora 
+如果没有设置$TNS_ADMIN默认在$ORACLE_HOME/network/admin/sqlnet.ora   
+或 
+$HOME/sqlnet.ora       
+ (1).   可以从别的机器拷贝一个文件过来，注意备份原来的sqlnet.ora。 
+---检查sqlnet.ora 文件内容 
+(2).   检查SQLNET.AUTHENTICATION_SERVICES   
+如果没有使用dblink.检查该行并设置 
+SQLNET.AUTHENTICATION_SERVICES = (BEQ,NONE) 
+ (3).    SQLNET.CRYPTO_SEED   
+在unix 下不需要该参数。如果存在该行，注释掉或删掉 
+(4).AUTOMATIC_IPC   
+如果该参数为 ON，将强制使用"TWO_TASK" 连接 
+最好设置为OFF 
+ AUTOMATIC_IPC = OFF 
+ 2.检查相关文件的权限配置。 
+找到$TNS_ADMIN/* 
+ $ cd $TNS_ADMIN     
+ $ chmod 644 sqlnet.ora tnsnames.ora listener.ora     
+ $ ls -l sqlnet.ora tnsnames.ora listener.ora     
+ -rw-r--r--    1 oracle dba         1628 Jul 12 15:25 listener.ora    
+ -rw-r--r--    1 oracle dba          586 Jun   1 12:07 sqlnet.ora     
+ -rw-r--r--    1 oracle dba        82274 Jul 12 15:23 tnsnames.ora 
+ 3.检查操作系统相关设置。 
+(1).   $ORACLE_HOME环境变量是否设置正确 
+% cd $ORACLE_HOME      
+ % pwd   
+如果错误，请重新设置： 
+sh or ksh:     ----------      
+ $ ORACLE_HOME=<path_to_ORACLE_HOME>      
+ $ export ORACLE_HOME       
+ Example:      
+ $ ORACLE_HOME=/u01/app/oracle/product/7.3.3      
+ $ export ORACLE_HOME        
+ csh:      ----     
+ % setenv ORACLE_HOME <path_to_ORACLE_HOME>        Example:      
+ % setenv ORACLE_HOME /u01/app/oracle/product/7.3.3    
+另外$ORACLE_HOME路径应为实际路径，不应是目录连接（ln -s) 
+ (2)   $ORACLE_SID是否设置正确； 
+% echo $ORACLE_SID                            
+ (3).确信没有设置$TWO_TASK 
+检查 "TWO_TASK" 是否设置： 
+sh, ksh or on HP/UX only csh:     
+ ----------------------------------- 
+ env |grep -i two     
+ - or -     
+ echo $TWO_TASK      
+ csh:      
+ ---- 
+ setenv |grep -i two        
+如果有返回行比如: 
+TWO_TASK=     
+ - or -   
+ TWO_TASK=PROD    
+就需要取消着这些环境变量设置 ： 
+sh or ksh:    
+ ----------     
+ unset TWO_TASK         
+ csh: 
+ ----     
+ unsetenv TWO_TASK    
+ (4) 检查oracle 文件的权限: 
+ % cd $ORACLE_HOME/bin      
+ % ls -l oracle 
+权限应为：rwsr-s--x, or 6751. 
+如果不是： 
+% chmod 6751 oracle   
+ (5). 检查当前所连接的操作系统用户是否是"osdba" 并且已经定义在： 
+"$ORACLE_HOME/rdbms/lib/config.s"   
+ or 
+ "$ORACLE_HOME/rdbms/lib/config.c". 
+通常应为dba 
+ % id      uid=1030(oracle) gid=1030(dba)     
+可以如果"gid" 是 "dba" ， "config.s" or "config.c" 
+里面应该有:            /* 0x0008          15 */          .ascii   "dba\0"     
+如果没有添加目前的操作系统用户到dba 组，或则手工编辑更改config.c并且:%relink oracle 
+ (6).所需要的文件系统是否正确mount 
+ %mount 
+ (7) 目前身份是否是"root" 并且操作系统环境变量 "USER", "USERNAME", and "LOGNAME" 没有设置成"root". 
+ root用户是特例,除非当前组是dba 组,否则不能connect internal. 
+把root用户当前组改为dba组： 
+# newgrp dba 
+ -----最好不要以root管理数据库; 
+ (8).检查"/etc/group" : 
+是否存在重复行 
+% grep dba /etc/group        
+ dba::1010: 
+ dba::1100:   
+如果有，删掉没有用的。 
+(9).确信停掉的instance没有占用内存资源 
+比如：ipcs -b             
+ T          ID        KEY         MODE     OWNER       GROUP    SEGSZ         
+ Shared Memory:            
+ m           0    0x50000ffe --rw-r--r-- root        root          68            
+ m        1601    0x0eedcdb8 --rw-r----- oracle       dba     4530176         
+可以看到1601 被oracle 使用，删掉. 
+-------注意是否启动了多个instance 
+ % ipcrm -m 1601 
+ (10).如果同时还有ora-12705 错误检查一下环境变量： 
+"ORA_NLS", "ORA_NLS32", "ORA_NLS33" ，"NLS_LANG".      
+ (11).检查 "ORACLE_HOME" and "LD_LIBRARY_PATH 环境变量： 
+$ LD_LIBRARY_PATH=$ORACLE_HOME/lib      
+ $ export LD_LIBRARY_PATH       
+ $ ORACLE_HOME=/u01/app/oracle/product/8.0.4      
+ $ export ORACLE_HOME 
+ (12).当前的instance 所再的磁盘是否有足够的磁盘空间 
+df -k 
+ (13).用户对/etc/passwd 是否有读权限。 
+(14).如果使用mts 方式，确信你的连接使用dedicade server 方式。 
+(15).安装ORACLE所需操作系统补丁是否打全。ORACLE 是否已经补丁到最新

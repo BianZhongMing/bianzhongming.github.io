@@ -1,0 +1,11 @@
+SQL> select instance_name from v$instance;
+
+INSTANCE_NAME
+----------------
+orcl
+
+SQL> select name from v$database;
+
+NAME
+---------
+ORCL

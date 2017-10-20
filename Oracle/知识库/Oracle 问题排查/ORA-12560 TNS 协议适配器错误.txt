@@ -1,0 +1,20 @@
+1.监听服务没有起起来。windows平台个一如下操作：开始---程序---管理工具---服务，打开服务面板，启动oraclehome92TNSlistener服务。
+
+2.database instance没有起起来。windows平台如下操作：开始---程序---管理工具---服务，打开服务
+面板，启动oracleserviceXXXX,XXXX就是你的database SID.
+
+3.注册表问题。regedit，然后进入HKEY_LOCAL_MACHINE\SOFTWARE\ORACLE\HOME0将该环境变量ORACLE_SID设置为XXXX,XXXX就是你的database SID.或者右几我的电脑，属性--高级--环境变量---系统变量--新建
+，变量名=oracle_sid,变量值=XXXX,XXXX就是你的database SID.或者进入sqlplus前，在command line下
+输set oracle_sid=XXXX,XXXX就是你的database SID.
+
+4.\NETWORK\ADMIN\tnsnames.ora增加：
+【NAME】 =
+  (DESCRIPTION =
+    (ADDRESS = (PROTOCOL = TCP)(HOST = 【IP】)(PORT = 1521))
+    (CONNECT_DATA =
+      (SERVER = DEDICATED)
+      (SERVICE_NAME = 【SID】)
+    )
+  )
+
+经过以上步骤，就可以解决问题。

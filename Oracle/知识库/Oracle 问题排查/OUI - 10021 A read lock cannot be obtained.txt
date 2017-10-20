@@ -1,0 +1,1 @@
+结束所有Oracle进程(实例，监听，oectl，sqlplus)即可

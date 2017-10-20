@@ -1,0 +1,4 @@
+ORA-12154 TNS无法解析指定的连接标识符
+
+重建监听，确保ORACLE_HOME/db_1/NETWORK/ADMIN下参数正确
+启动数据库的监听（ORACLE_HOME/db_1/bin/lsnrctl.exe start）

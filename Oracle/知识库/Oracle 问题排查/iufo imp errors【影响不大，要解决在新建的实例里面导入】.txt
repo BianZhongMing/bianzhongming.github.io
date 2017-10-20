@@ -1,0 +1,7 @@
+IMP-00017: following statement failed with ORACLE error 2264:
+ "ALTER TABLE "IUFO_REPGROUP" ADD CONSTRAINT "?????????" FOREIGN KEY ("TASKID"
+ "") REFERENCES "IUFO_TASK" ("ID") ENABLE NOVALIDATE"
+IMP-00003: ORACLE error 2264 encountered
+ORA-02264: name already used by an existing constraint
+About to enable constraints...
+Import terminated successfully with warnings.

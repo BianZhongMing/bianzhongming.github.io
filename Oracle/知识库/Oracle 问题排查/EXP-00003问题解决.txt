@@ -1,0 +1,28 @@
+使用旧版本的exp从9205(或以上)版本导出有lob对象的表时会出现 "EXP-00003: no storage definition found for segment ....."的错误, 这是Oracle的一个Bug
+
+
+用Oracle 11g EXP/10g Exp命令备份库遇到以下错误：
+EXP-00003: no storage definition found for segment(11, 307)
+"EXP-00003： no storage definition found for segment ……"错误，和Oracle的一个小Bug相关，可以通过修改一个导出相关的View来解决。
+
+在目标数据库使用sys用户，执行如下SQL创建新的view：
+
+CREATE OR REPLACE VIEW exu9tne (
+tsno, fileno, blockno, length) AS
+SELECT ts#, segfile#, segblock#, length
+FROM sys.uet$
+WHERE ext# = 1
+UNION ALL
+SELECT * FROM SYS.EXU9TNEB
+/
+
+然后就可以正常进行导出操作，exp完成后， 最好将视图还原（Metalink建议）：
+
+CREATE OR REPLACE VIEW exu9tne (
+tsno, fileno, blockno, length) AS
+SELECT ts#, segfile#, segblock#, length
+FROM sys.uet$
+WHERE ext# = 1
+/
+
+EXU9TNE视图初始由 $ORACLE_HOME/rdbms/admin/catexp.sql 脚本创建。

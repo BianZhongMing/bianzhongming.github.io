@@ -1,0 +1,186 @@
+如果迁移数据时使用的是Oracle的imp工具，如何排除特定表的导入，满足个性化需求呢？imp工具没有impdp工具那样灵活，这里给出一个迂回的办法：先创建同名的数据库对象，然后忽略导入过程中的错误即可。简单演示一下，供参考。其中的一些细节同样值得思考和注意。
+
+1.环境准备
+1）创建用户sec并授权
+sys@ora10g> drop user sec cascade;
+sys@ora10g> create user sec identified by sec default tablespace TBS_SEC_D;
+sys@ora10g> grant dba to sec;
+
+2）在sec用户下创建三张表，为每张表中初始化一条数据
+sys@ora10g> conn sec/sec
+sec@ora10g> create table t1 (x int);
+sec@ora10g> create table t2 (x int);
+sec@ora10g> create table t3 (x int);
+sec@ora10g> insert into t1 values(1);
+sec@ora10g> insert into t2 values(2);
+sec@ora10g> insert into t3 values(3);
+sec@ora10g> commit;
+
+sec@ora10g> select * from tab;
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+T2                             TABLE
+T1                             TABLE
+T3                             TABLE
+
+2.使用exp工具生成sec用户的备份文件
+ora10g@secdb /home/oracle$ exp sec/sec file=sec.dmp
+
+Export: Release 10.2.0.3.0 - Production on Mon Aug 29 08:53:55 2010
+
+Copyright (c) 1982, 2005, Oracle.  All rights reserved.
+
+
+Connected to: Oracle Database 10g Enterprise Edition Release 10.2.0.3.0 - 64bit Production
+With the Partitioning, Oracle Label Security, OLAP and Data Mining Scoring Engine options
+Export done in AL32UTF8 character set and UTF8 NCHAR character set
+
+About to export specified users ...
+. exporting pre-schema procedural objects and actions
+. exporting foreign function library names for user SEC
+. exporting PUBLIC type synonyms
+. exporting private type synonyms
+. exporting object type definitions for user SEC
+About to export SEC's objects ...
+. exporting database links
+. exporting sequence numbers
+. exporting cluster definitions
+. about to export SEC's tables via Conventional Path ...
+. . exporting table                             T1          1 rows exported
+. . exporting table                             T2          1 rows exported
+. . exporting table                             T3          1 rows exported
+. exporting synonyms
+. exporting views
+. exporting stored procedures
+. exporting operators
+. exporting referential integrity constraints
+. exporting triggers
+. exporting indextypes
+. exporting bitmap, functional and extensible indexes
+. exporting posttables actions
+. exporting materialized views
+. exporting snapshot logs
+. exporting job queues
+. exporting refresh groups and children
+. exporting dimensions
+. exporting post-schema procedural objects and actions
+. exporting statistics
+Export terminated successfully without warnings.
+
+3.删除sec用户下的表，同时创建一张t1表
+我们的目标是在imp导入数据的过程中跳过t1。
+sec@ora10g> drop table t1 purge;
+sec@ora10g> drop table t2 purge;
+sec@ora10g> drop table t3 purge;
+sec@ora10g> select * from cat;
+
+no rows selected
+
+创建一个表t1
+sec@ora10g> create table t1 (x int);
+
+Table created.
+
+4.使用imp工具完成导入，确认t1表未被导入
+1）导入操作
+ora10g@secdb /home/oracle$ imp sec/sec file=sec.dmp full=y
+
+Import: Release 10.2.0.3.0 - Production on Mon Aug 29 08:56:24 2010
+
+Copyright (c) 1982, 2005, Oracle.  All rights reserved.
+
+
+Connected to: Oracle Database 10g Enterprise Edition Release 10.2.0.3.0 - 64bit Production
+With the Partitioning, Oracle Label Security, OLAP and Data Mining Scoring Engine options
+
+Export file created by EXPORT:V10.02.01 via conventional path
+import done in AL32UTF8 character set and UTF8 NCHAR character set
+. importing SEC's objects into SEC
+IMP-00015: following statement failed because the object already exists:
+ "CREATE TABLE "T1" ("X" NUMBER(*,0))  PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTR"
+ "ANS 255 STORAGE(INITIAL 65536 FREELISTS 1 FREELIST GROUPS 1 BUFFER_POOL DEF"
+ "AULT)                        LOGGING NOCOMPRESS"
+. . importing table                           "T2"          1 rows imported
+. . importing table                           "T3"          1 rows imported
+Import terminated successfully with warnings.
+
+可见，此时在创建t1表的时候报错，此时t1的数据同样没有被导入，即实现了跳过t1表导入的目的。
+
+2）检查数据导入结果
+sec@ora10g> select * from t1;
+
+no rows selected
+
+sec@ora10g> select * from t2;
+
+         X
+----------
+         2
+
+sec@ora10g> select * from t3;
+
+         X
+----------
+         3
+
+OK，满足了我们的目标。
+
+5.注意事项
+这里需要注意，如果使用的是预先创建数据库对象是表t1，同时t1表与待排除导入的t1表结构相同或相近（例如创建t1表语句为create table t (a varchar2(10), b varchar2(10));），则不可使用ignore=y选项，否则t1表中的数据仍然会被导入。实验演示如下。
+
+1）删除t2和t3表，保留t1这个空表
+sec@ora10g> drop table t2 purge;
+sec@ora10g> drop table t3 purge;
+
+2）使用具有ignore=y选项的imp命令完成导入
+ora10g@secdb /home/oracle$ imp sec/sec file=sec.dmp full=y ignore=y
+
+Import: Release 10.2.0.3.0 - Production on Mon Aug 29 08:59:29 2010
+
+Copyright (c) 1982, 2005, Oracle.  All rights reserved.
+
+
+Connected to: Oracle Database 10g Enterprise Edition Release 10.2.0.3.0 - 64bit Production
+With the Partitioning, Oracle Label Security, OLAP and Data Mining Scoring Engine options
+
+Export file created by EXPORT:V10.02.01 via conventional path
+import done in AL32UTF8 character set and UTF8 NCHAR character set
+. importing SEC's objects into SEC
+. . importing table                           "T1"          1 rows imported
+. . importing table                           "T2"          1 rows imported
+. . importing table                           "T3"          1 rows imported
+Import terminated successfully without warnings.
+
+该结果已说明，在使用ignore=y选项时，即使表t1已经存在，依然可以完成数据的导入，这与我们的目标相违背。
+
+6.避免数据被误导入的方法
+我们可以创建其他以t1命名的数据库对象来规避上文中提到的问题。例如我们创建一个叫做t1的数据库视图。
+sec@ora10g> create view t1 as select * from dual;
+
+View created.
+
+此时即使我们使用ignore=y选项，表t1的数据也不会被导入。
+ora10g@secdb /home/oracle$ imp sec/sec file=sec.dmp full=y ignore=y
+
+Import: Release 10.2.0.3.0 - Production on Mon Aug 29 09:10:24 2010
+
+Copyright (c) 1982, 2005, Oracle.  All rights reserved.
+
+
+Connected to: Oracle Database 10g Enterprise Edition Release 10.2.0.3.0 - 64bit Production
+With the Partitioning, Oracle Label Security, OLAP and Data Mining Scoring Engine options
+
+Export file created by EXPORT:V10.02.01 via conventional path
+import done in AL32UTF8 character set and UTF8 NCHAR character set
+. importing SEC's objects into SEC
+. . importing table                           "T1"
+IMP-00058: ORACLE error 904 encountered
+ORA-00904: "X": invalid identifier
+. . importing table                           "T2"          1 rows imported
+. . importing table                           "T3"          1 rows imported
+Import terminated successfully with warnings.
+
+7.小结
+在某些必须使用imp工具进行迁移数据时，如果能够很好的利用文中提到的方法，可以很高效地满足迁移数据过程中个性化的需求。
+很多时候我们可以换一个思路解决问题，只要综合成本最低就是好方法。

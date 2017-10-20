@@ -1,0 +1,355 @@
+
+连接到: Oracle Database 10g Enterprise Edition Release 10.2.0.1.0 - Production
+With the Partitioning, OLAP and Data Mining options
+
+经由直接路径由 EXPORT:V10.02.01 创建的导出文件
+已经完成 ZHS16GBK 字符集和 AL16UTF16 NCHAR 字符集中的导入
+IMP-00017: 由于 ORACLE 错误 2304, 以下语句失败:
+ "CREATE TYPE "TID" TIMESTAMP '2009-05-26:16:50:39' OID '6ACCFBA89B29A0A6E043"
+ "AC13647AA0A6'   IS OBJECT(TID VARCHAR2(30));"
+ ""
+IMP-00003: 遇到 ORACLE 错误 2304
+ORA-02304: 无效的对象标识符文字
+IMP-00017: 由于 ORACLE 错误 2304, 以下语句失败:
+ "CREATE TYPE "TIDS" TIMESTAMP '2009-05-26:16:51:06' OID '6ACCFBA89B2DA0A6E04"
+ "3AC13647AA0A6'   IS TABLE OF TID;"
+ ""
+IMP-00003: 遇到 ORACLE 错误 2304
+ORA-02304: 无效的对象标识符文字
+IMP-00017: 由于 ORACLE 错误 2304, 以下语句失败:
+ "CREATE TYPE "TTAB" TIMESTAMP '2009-06-15:09:52:55' OID '6C597A8C03443088E04"
+ "3AC13647A3088'   IS OBJECT(F_1 VARCHAR2(300),"
+ "                                      F_2 VARCHAR2(300),"
+ "                                      F_3 VARCHAR2(300),"
+ "                                      F_4 VARCHAR2(300),"
+ "                                      F_5 VARCHAR2(300))"
+IMP-00003: 遇到 ORACLE 错误 2304
+ORA-02304: 无效的对象标识符文字
+IMP-00017: 由于 ORACLE 错误 2304, 以下语句失败:
+ "CREATE TYPE "TTABS" TIMESTAMP '2009-06-15:09:53:26' OID '6C597A8C034C3088E0"
+ "43AC13647A3088'   IS TABLE OF TTAB"
+IMP-00003: 遇到 ORACLE 错误 2304
+ORA-02304: 无效的对象标识符文字
+IMP-00017: 由于 ORACLE 错误 2304, 以下语句失败:
+ "CREATE TYPE "QUEST_SOO_ARCHIVE_DEST_TYP" TIMESTAMP '2010-11-22:12:53:49' OI"
+ "D '959E0AB84D6CD03EE043AC136479D03E'   IS OBJECT ("
+ "    SEQUENCE_NUM                              NUMBER(12,0),"
+ "    DEST_NAME                                 VARCHAR2(50),"
+ "    STATUS                                    VARCHAR2(50),"
+ "    TARGET                                    VARCHAR2(50),"
+ "    DESTINATION                               VARCHAR2(256),"
+ "    DESTINATION_END                           VARCHAR2(256),"
+ "    BINDING                                   VARCHAR2(50),"
+ "    LOG_SEQUENCE                              NUMBER(12,0),"
+ "    REOPEN_SECS                               NUMBER(12,0),"
+ "    TRANSMIT_MODE                             VARCHAR2(50),"
+ "    TYPE                                      VARCHAR2(50),"
+ "    VALID_TYPE                                VARCHAR2(50),"
+ "    TOTAL_MB                                  NUMBER(14,2),"
+ "    FREE_MB                                   NUMBER(14,2),"
+ "    USABLE_FILE_MB                            NUMBER(14,2),"
+ "    IS_ASM                                    VARCHAR2(10),"
+ "    IS_RECOVERY                               VARCHAR2(10),"
+ "    MIN_RECORD                                NUMBER(1,0),"
+ "    TIME_TO_FAILURE                           NUMBER,"
+ "    INSTANCE_NAME                             VARCHAR2(64),"
+ "    LOCAL_TTF                                 NUMBER,"
+ "    LOCAL_MIN_REC                             NUMBER(1,0),"
+ "    ERROR                                     VARCHAR2(256),"
+ "    MESSAGE                                   VARCHAR2(200),"
+ "    ARCHIVER_STATUS                           VARCHAR2(20),"
+ "    DEST_IN_ERROR                             NUMBER(1),"
+ "    LOCAL_DEST_IN_ERROR                       NUMBER(1),"
+ "    ARCHIVER_IN_ERROR                         NUMBER(1),"
+ "    LOCAL_ARCHIVER_ERROR                      NUMBER(1),"
+ "    LOCAL_INSTANCE_NAME                       VARCHAR2(64))"
+IMP-00003: 遇到 ORACLE 错误 2304
+ORA-02304: 无效的对象标识符文字
+IMP-00017: 由于 ORACLE 错误 2304, 以下语句失败:
+ "CREATE TYPE "QUEST_SOO_ARC_DEST_LIST_TYP" TIMESTAMP '2010-11-22:12:53:49' O"
+ "ID '959E0AB84D8DD03EE043AC136479D03E'   IS TABLE OF quest_soo_archive_dest_"
+ "typ"
+IMP-00003: 遇到 ORACLE 错误 2304
+ORA-02304: 无效的对象标识符文字
+IMP-00017: 由于 ORACLE 错误 2304, 以下语句失败:
+ "CREATE TYPE "QUEST_SOO_ALERTTRACE_LINE_TYP" TIMESTAMP '2010-11-22:12:53:50'"
+ " OID '959E0AB84D91D03EE043AC136479D03E'   IS OBJECT (linedate DATE, linetex"
+ "t VARCHAR2(4000), filestatus NUMBER )"
+IMP-00003: 遇到 ORACLE 错误 2304
+ORA-02304: 无效的对象标识符文字
+IMP-00017: 由于 ORACLE 错误 2304, 以下语句失败:
+ "CREATE TYPE "QUEST_SOO_ALERTTRACE_LOG_TYP" TIMESTAMP '2010-11-22:12:53:50' "
+ "OID '959E0AB84D97D03EE043AC136479D03E'   IS TABLE OF quest_soo_alerttrace_l"
+ "ine_typ"
+IMP-00003: 遇到 ORACLE 错误 2304
+ORA-02304: 无效的对象标识符文字
+IMP-00017: 由于 ORACLE 错误 2304, 以下语句失败:
+ "CREATE TYPE "TAB_TYPE" TIMESTAMP '2011-01-21:11:27:44' OID '9A537E0CC2B640F"
+ "4E043AC13647940F4'   is object (a varchar2(40),b varchar2(200),c char(19))"
+IMP-00003: 遇到 ORACLE 错误 2304
+ORA-02304: 无效的对象标识符文字
+IMP-00017: 由于 ORACLE 错误 2304, 以下语句失败:
+ "CREATE TYPE "TT_TAB" TIMESTAMP '2011-01-21:11:27:52' OID '9A53657D8CEA1090E"
+ "043AC1364791090'   is table of TAB_TYPE"
+IMP-00003: 遇到 ORACLE 错误 2304
+ORA-02304: 无效的对象标识符文字
+. . 正在导入表                   "ANALYZE_LOG"导入了         358 行
+. . 正在导入表                 "ARAP_AGIOTAGE"导入了           0 行
+. . 正在导入表                    "ARAP_AUDIT"导入了       17907 行
+. . 正在导入表               "ARAP_BANKRECIVE"导入了           0 行
+. . 正在导入表               "ARAP_BILLCONFER"导入了           0 行
+. . 正在导入表        "ARAP_BILLCONFER_FORLGM"导入了         114 行
+. . 正在导入表               "ARAP_CHANGETYPE"导入了           5 行
+. . 正在导入表               "ARAP_CREATEBILL"导入了           0 行
+. . 正在导入表                    "ARAP_DJCLB"导入了       45624 行
+. . 正在导入表                     "ARAP_DJFB"导入了     3433087 行
+. . 正在导入表                  "ARAP_DJFKXYB"导入了     3434550 行
+. . 正在导入表                     "ARAP_DJLX"导入了        6711 行
+. . 正在导入表              "ARAP_DJLXTEMPLET"导入了           0 行
+. . 正在导入表                     "ARAP_DJZB"导入了     2593095 行
+. . 正在导入表                     "ARAP_DZTZ"导入了           0 行
+. . 正在导入表                    "ARAP_EBANK"导入了       16042 行
+. . 正在导入表                       "ARAP_FA"导入了           0 行
+. . 正在导入表                  "ARAP_FENGCUN"导入了           0 行
+. . 正在导入表                     "ARAP_FREE"导入了           0 行
+. . 正在导入表            "ARAP_FREE_PROPERTY"导入了           0 行
+. . 正在导入表                       "ARAP_GZ"导入了           0 行
+. . 正在导入表                "ARAP_GZ_DEFINE"导入了           0 行
+. . 正在导入表              "ARAP_GZ_DEFINE_B"导入了           0 行
+. . 正在导入表                     "ARAP_HZCS"导入了           0 行
+. . 正在导入表                     "ARAP_HZYE"导入了           0 行
+. . 正在导入表                   "ARAP_ID_NTB"导入了           0 行
+. . 正在导入表                     "ARAP_ITEM"导入了           0 行
+. . 正在导入表               "ARAP_ITEMCONFIG"导入了           0 行
+. . 正在导入表                   "ARAP_ITEM_B"导入了           0 行
+. . 正在导入表                 "ARAP_ITEM_CLB"导入了           0 行
+. . 正在导入表                    "ARAP_JSCLB"导入了           0 行
+. . 正在导入表                     "ARAP_LCPZ"导入了          14 行
+. . 正在导入表                   "ARAP_METHOD"导入了           3 行
+. . 正在导入表              "ARAP_NOTE_CHANGE"导入了           0 行
+. . 正在导入表                  "ARAP_NOTE_CL"导入了           0 行
+. . 正在导入表                 "ARAP_NOTE_EBM"导入了           0 行
+. . 正在导入表          "ARAP_NOTE_EBM_CHANGE"导入了           0 行
+. . 正在导入表                 "ARAP_NOTE_GZB"导入了           0 行
+. . 正在导入表               "ARAP_NOTE_GZB_C"导入了           0 行
+. . 正在导入表                  "ARAP_NOTE_PJ"导入了           0 行
+. . 正在导入表            "ARAP_NOTE_PROPERTY"导入了           0 行
+. . 正在导入表                "ARAP_NOTE_TYPE"导入了           2 行
+. . 正在导入表                   "ARAP_NOTICE"导入了           0 行
+. . 正在导入表                 "ARAP_NOTICE_B"导入了           0 行
+. . 正在导入表                    "ARAP_PARAM"导入了        8218 行
+. . 正在导入表               "ARAP_POWER_DJLX"导入了           0 行
+. . 正在导入表                   "ARAP_QRYOBJ"导入了        4937 行
+. . 正在导入表                    "ARAP_RQQJB"导入了           0 行
+. . 正在导入表                  "ARAP_SYSCODE"导入了          17 行
+. . 正在导入表                  "ARAP_TB_ITEM"导入了           0 行
+. . 正在导入表                "ARAP_TB_ITEM_B"导入了           0 行
+. . 正在导入表                     "ARAP_XZFK"导入了           0 行
+. . 正在导入表                    "BD_ABCPARA"导入了           8 行
+. . 正在导入表                    "BD_ACCBANK"导入了        2965 行
+. . 正在导入表               "BD_ACCBANK_AUTH"导入了          34 行
+. . 正在导入表                "BD_ACCBANK_FTS"导入了        2965 行
+. . 正在导入表                      "BD_ACCID"导入了        1045 行
+. . 正在导入表                 "BD_ACCMANAGER"导入了           0 行
+. . 正在导入表                  "BD_ACCPERIOD"导入了           7 行
+. . 正在导入表             "BD_ACCPERIODMONTH"导入了          84 行
+. . 正在导入表           "BD_ACCPERIODQUARTER"导入了          28 行
+. . 正在导入表            "BD_ACCPERIODSCHEME"导入了           1 行
+. . 正在导入表                    "BD_ACCSUBJ"导入了      178110 行
+. . 正在导入表            "BD_ACCSUBJ_CONTROL"导入了           0 行
+. . 正在导入表             "BD_ACCSUBJ_HISTRY"导入了           0 行
+. . 正在导入表            "BD_ACCSUBJ_ROADMAP"导入了           0 行
+. . 正在导入表                    "BD_ADDRESS"导入了           0 行
+. . 正在导入表                 "BD_ADJUSTRATE"导入了           0 行
+. . 正在导入表                     "BD_AREACL"导入了           7 行
+. . 正在导入表                "BD_ASSOCIATION"导入了           0 行
+. . 正在导入表                   "BD_BALATYPE"导入了          34 行
+. . 正在导入表                   "BD_BANKAREA"导入了           0 行
+. . 正在导入表             "BD_BATCHCODE_RULE"导入了          24 行
+. . 正在导入表                  "BD_BATCHLIST"导入了           0 行
+. . 正在导入表                       "BD_BCLB"导入了           0 行
+. . 正在导入表                     "BD_BDINFO"导入了         262 行
+. . 正在导入表                   "BD_BILLTYPE"导入了         273 行
+. . 正在导入表                  "BD_BILLTYPE2"导入了           0 行
+. . 正在导入表                        "BD_BOM"导入了           0 行
+. . 正在导入表                      "BD_BOM_B"导入了           0 行
+. . 正在导入表                     "BD_BOM_TD"导入了           0 行
+. . 正在导入表                     "BD_BOM_ZP"导入了           0 行
+. . 正在导入表                   "BD_BUSITYPE"导入了          18 行
+. . 正在导入表              "BD_BUSITYPECLASS"导入了          11 行
+. . 正在导入表                    "BD_CALBODY"导入了         566 行
+. . 正在导入表                    "BD_CARGDOC"导入了           0 行
+. . 正在导入表                   "BD_CASHFLOW"导入了          71 行
+. . 正在导入表                "BD_CASHFLOWADJ"导入了           0 行
+. . 正在导入表                   "BD_COMABSTR"导入了         378 行
+. . 正在导入表                    "BD_CONVERT"导入了           1 行
+. . 正在导入表                       "BD_CORP"导入了         594 行
+. . 正在导入表                   "BD_CORP0812"导入了         278 行
+. . 正在导入表                "BD_CORPHISTORY"导入了        2860 行
+. . 正在导入表                  "BD_CORP_0730"导入了          75 行
+. . 正在导入表                   "BD_CORP_BAK"导入了          67 行
+. . 正在导入表               "BD_CORP_HISTORY"导入了        2012 行
+. . 正在导入表                    "BD_CORP_YU"导入了         594 行
+. . 正在导入表                   "BD_COSTSUBJ"导入了       36393 行
+. . 正在导入表                   "BD_CUBASDOC"导入了        3840 行
+. . 正在导入表                   "BD_CUMANDOC"导入了       70000 行
+. . 正在导入表                   "BD_CURRINFO"导入了           5 行
+. . 正在导入表                   "BD_CURRRATE"导入了           0 行
+. . 正在导入表                   "BD_CURRTYPE"导入了           6 行
+. . 正在导入表                   "BD_CUSTADDR"导入了           1 行
+. . 正在导入表                   "BD_CUSTBANK"导入了        2344 行
+. . 正在导入表                "BD_CUSTCOMBINE"导入了           0 行
+. . 正在导入表              "BD_DATAPOWERUSED"导入了           0 行
+. . 正在导入表               "BD_DEFCSTTBLNME"导入了        3112 行
+. . 正在导入表                     "BD_DEFDEF"导入了          86 行
+. . 正在导入表                     "BD_DEFDOC"导入了       13476 行
+. . 正在导入表                 "BD_DEFDOCLIST"导入了         157 行
+. . 正在导入表                   "BD_DEFQUOTE"导入了       61805 行
+. . 正在导入表                    "BD_DEFUSED"导入了        3103 行
+. . 正在导入表                    "BD_DEL_LOG"导入了      394039 行
+. . 正在导入表                    "BD_DEPTDOC"导入了        6906 行
+. . 正在导入表                "BD_DEPTHISTORY"导入了        4917 行
+. . 正在导入表                     "BD_FZQXJB"导入了           0 行
+. . 正在导入表                     "BD_GLBOOK"导入了           5 行
+. . 正在导入表                 "BD_GLFREEITEM"导入了           0 行
+. . 正在导入表                      "BD_GLORG"导入了         583 行
+. . 正在导入表                  "BD_GLORGBOOK"导入了         405 行
+. . 正在导入表             "BD_GLORGBOOK_0807"导入了         390 行
+. . 正在导入表              "BD_GLORGBOOK_BAK"导入了         389 行
+. . 正在导入表              "BD_INNERCODEROOT"导入了         568 行
+. . 正在导入表              "BD_INTERFACEEXEC"导入了          46 行
+. . 正在导入表                  "BD_INVBASDOC"导入了        9648 行
+. . 正在导入表                  "BD_INVBINDLE"导入了           0 行
+. . 正在导入表                      "BD_INVCL"导入了          81 行
+. . 正在导入表                  "BD_INVMANDOC"导入了     5506527 行
+. . 正在导入表                    "BD_INVREPL"导入了           0 行
+. . 正在导入表                  "BD_JOBBASFIL"导入了         360 行
+. . 正在导入表                      "BD_JOBCL"导入了           0 行
+. . 正在导入表                  "BD_JOBMNGFIL"导入了         803 行
+. . 正在导入表                  "BD_JOBOBJPHA"导入了           0 行
+. . 正在导入表                   "BD_JOBPHASE"导入了           0 行
+. . 正在导入表                    "BD_JOBTYPE"导入了           6 行
+. . 正在导入表                    "BD_MEASDOC"导入了          48 行
+. . 正在导入表               "BD_NODEPROPERTY"导入了           0 行
+. . 正在导入表                    "BD_PAYTERM"导入了           0 行
+. . 正在导入表                  "BD_PAYTERMCH"导入了           0 行
+. . 正在导入表                 "BD_PRAYVSBUSI"导入了          34 行
+. . 正在导入表                   "BD_PRODLINE"导入了           0 行
+. . 正在导入表                    "BD_PRODUCE"导入了     5390805 行
+. . 正在导入表               "BD_PRODUCE_0329"导入了     3074159 行
+. . 正在导入表                   "BD_PROPCTRL"导入了           1 行
+. . 正在导入表             "BD_PROPCTRLDETAIL"导入了          11 行
+. . 正在导入表              "BD_PROPCTRL_CELL"导入了          11 行
+. . 正在导入表                 "BD_PSNACCBANK"导入了         582 行
+. . 正在导入表            "BD_PSNACCBANK_0330"导入了         516 行
+. . 正在导入表                  "BD_PSNBASDOC"
+IMP-00058: 遇到 ORACLE 错误 942
+ORA-00942: 表或视图不存在导入了       12218 行
+. . 正在导入表          "BD_PSNBASDOC_0201BAK"
+IMP-00058: 遇到 ORACLE 错误 942
+ORA-00942: 表或视图不存在导入了        4310 行
+. . 正在导入表         "BD_PSNBASDOC_0224_BAK"
+IMP-00058: 遇到 ORACLE 错误 942
+ORA-00942: 表或视图不存在导入了       27350 行
+. . 正在导入表          "BD_PSNBASDOC_0331BAK"
+IMP-00058: 遇到 ORACLE 错误 942
+ORA-00942: 表或视图不存在导入了       13881 行
+. . 正在导入表         "BD_PSNBASDOC_20120319"
+IMP-00058: 遇到 ORACLE 错误 942
+ORA-00942: 表或视图不存在导入了       18337 行
+. . 正在导入表      "BD_PSNBASDOC_20140115BAK"
+IMP-00058: 遇到 ORACLE 错误 942
+ORA-00942: 表或视图不存在导入了      527630 行
+. . 正在导入表            "BD_PSNBASDOC_313CL"
+IMP-00058: 遇到 ORACLE 错误 942
+ORA-00942: 表或视图不存在导入了        4309 行
+. . 正在导入表         "BD_PSNBASDOC_313CL_XZ"
+IMP-00058: 遇到 ORACLE 错误 942
+ORA-00942: 表或视图不存在导入了       14001 行
+. . 正在导入表      "BD_PSNBASDOC_BAK20140827"
+IMP-00058: 遇到 ORACLE 错误 942
+ORA-00942: 表或视图不存在导入了       12203 行
+. . 正在导入表               "BD_PSNBASDOC_HR"
+IMP-00058: 遇到 ORACLE 错误 942
+ORA-00942: 表或视图不存在导入了         522 行
+. . 正在导入表                      "BD_PSNCL"导入了          28 行
+. . 正在导入表                     "BD_PSNDOC"导入了       28640 行
+. . 正在导入表                 "BD_PSNDOC0306"导入了       18319 行
+. . 正在导入表             "BD_PSNDOC_0201BAK"导入了        6341 行
+. . 正在导入表             "BD_PSNDOC_0216BAK"导入了       29407 行
+. . 正在导入表           "BD_PSNDOC_0216BAKYU"导入了        8955 行
+. . 正在导入表         "BD_PSNDOC_0216BAK_YU2"导入了          22 行
+. . 正在导入表            "BD_PSNDOC_0224_BAK"导入了       20474 行
+. . 正在导入表                "BD_PSNDOC_0308"导入了       27364 行
+. . 正在导入表                "BD_PSNDOC_0312"导入了       24007 行
+. . 正在导入表             "BD_PSNDOC_0331BAK"导入了       15132 行
+. . 正在导入表                 "BD_PSNDOC_111"导入了        3886 行
+. . 正在导入表            "BD_PSNDOC_20120319"导入了       24040 行
+. . 正在导入表         "BD_PSNDOC_20140115BAK"导入了       26262 行
+. . 正在导入表               "BD_PSNDOC_313CL"导入了        6341 行
+. . 正在导入表            "BD_PSNDOC_313CL_XZ"导入了       17671 行
+. . 正在导入表         "BD_PSNDOC_BAK20140827"导入了       28628 行
+. . 正在导入表                "BD_PSNDOC_CONS"导入了           2 行
+. . 正在导入表            "BD_PSNDOC_CONS_ITM"导入了         110 行
+. . 正在导入表                "BD_PSNTOPURORG"导入了           0 行
+. . 正在导入表                     "BD_PTRATE"导入了           0 行
+. . 正在导入表                     "BD_PURORG"导入了           3 行
+. . 正在导入表                       "BD_RDCL"导入了          28 行
+. . 正在导入表                  "BD_REFCOLUMN"导入了        4237 行
+. . 正在导入表                "BD_REFDATATEMP"导入了       20418 行
+. . 正在导入表                    "BD_REFINFO"导入了         107 行
+. . 正在导入表          "BD_REFINFO_CONDITION"导入了           0 行
+. . 正在导入表                   "BD_REFTABLE"导入了         268 行
+. . 正在导入表                 "BD_REF_PLUGIN"导入了           0 行
+. . 正在导入表               "BD_REF_RELATION"导入了        1219 行
+. . 正在导入表                  "BD_RESCENTER"导入了           0 行
+. . 正在导入表                   "BD_RESPDEPT"导入了           0 行
+. . 正在导入表                        "BD_RLH"导入了           0 行
+. . 正在导入表                      "BD_RLH_B"导入了           0 行
+. . 正在导入表                   "BD_SALESTRU"导入了           4 行
+. . 正在导入表                         "BD_SC"导入了           0 行
+. . 正在导入表                   "BD_SENDTYPE"导入了           0 行
+. . 正在导入表                    "BD_SETPART"导入了          14 行
+. . 正在导入表               "BD_SETTLECENTER"导入了           0 行
+. . 正在导入表                 "BD_SETTLEUNIT"导入了           0 行
+. . 正在导入表               "BD_SETTLEUNIT_B"导入了           0 行
+. . 正在导入表              "BD_SETTLEUNIT_B1"导入了           0 行
+. . 正在导入表                        "BD_SSC"导入了           0 行
+. . 正在导入表                    "BD_STORDOC"导入了        7590 行
+. . 正在导入表          "BD_STORDOC_BAK140214"导入了        6408 行
+. . 正在导入表                 "BD_STORVSCOST"导入了           0 行
+. . 正在导入表                    "BD_SUBJASS"导入了      116403 行
+. . 正在导入表               "BD_SUBJOBLIGATE"导入了           0 行
+. . 正在导入表                 "BD_SUBJSCHEME"导入了           2 行
+. . 正在导入表                   "BD_SUBJTYPE"导入了          22 行
+. . 正在导入表                   "BD_TAXITEMS"导入了          90 行
+. . 正在导入表                  "BD_TRANSRELA"导入了         180 行
+. . 正在导入表                "BD_TRANSRELA_B"导入了        3495 行
+. . 正在导入表                "BD_VOUCHERTYPE"导入了           1 行
+. . 正在导入表          "BD_VOUCHERTYPE_LIMIT"导入了           0 行
+. . 正在导入表                         "BD_WT"导入了           0 行
+. . 正在导入表                      "BD_ZQXJB"导入了           0 行
+. . 正在导入表                            "BH"导入了        5309 行
+. . 正在导入表                      "CB201008"导入了      357190 行
+. . 正在导入表                    "CB201008LS"导入了      113544 行
+. . 正在导入表                 "CC_BUSTYPECTL"导入了           0 行
+. . 正在导入表             "COST_SYSTEM_INDEX"导入了           0 行
+. . 正在导入表                         "DAORU"导入了          76 行
+. . 正在导入表                   "DAP_BATCH_Q"
+IMP-00058: 遇到 ORACLE 错误 942
+ORA-00942: 表或视图不存在导入了           0 行
+. . 正在导入表                "DAP_BILLFACTOR"导入了        1072 行
+. . 正在导入表               "DAP_CONTROLRULE"导入了       54634 行
+. . 正在导入表                 "DAP_DAPSYSTEM"导入了          28 行
+. . 正在导入表                   "DAP_DEFITEM"导入了       20026 行
+. . 正在导入表              "DAP_ELSEBUSITYPE"导入了           0 行
+. . 正在导入表                    "DAP_FACTOR"导入了          76 行
+. . 正在导入表                  "DAP_FININDEX"导入了       73931 行
+. . 正在导入表                    "DAP_FINMSG"导入了     2491646 行
+. . 正在导入表               "DAP_INSUBJCLASS"导入了       20516 行
+. . 正在导入表         "DAP_INSUBJCLASSFACTOR"导入了       17793 行
+. . 正在导入表               "DAP_MERGESCHEME"导入了         551 行
+. . 正在导入表             "DAP_MERGESCHEME_B"导入了           8 行
+. . 正在导入表             "DAP_OPERATORMERGE"导入了          84 行
+. . 正在导入表                 "DAP_ORGACCDEF"导入了        4078 行
+. . 正在导入表               "DAP_RTFREEVALUE"导入了           0 行

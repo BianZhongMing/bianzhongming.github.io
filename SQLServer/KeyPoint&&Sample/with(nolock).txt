@@ -1,0 +1,65 @@
+WITH(NOLOCK)其实是表提示（table_hint）中的一种。它等同于 READUNCOMMITTED。具体的功能作用如下所示（摘自MSDN）：
+   1： 指定允许脏读。不发布共享锁来阻止其他事务修改当前事务读取的数据，其他事务设置的排他锁不会阻碍当前事务读取锁定数据。允许脏读可能产生较多的并发操作，但其代价是读取以后会被其他事务回滚的数据修改。这可能会使您的事务出错，向用户显示从未提交过的数据，或者导致用户两次看到记录（或根本看不到记录）。有关脏读、不可重复读和幻读的详细信息，请参阅并发影响。
+   2： READUNCOMMITTED 和 NOLOCK 提示仅适用于数据锁。所有查询（包括那些带有 READUNCOMMITTED 和 NOLOCK 提示的查询）都会在编译和执行过程中获取 Sch-S（架构稳定性）锁。因此，当并发事务持有表的 Sch-M（架构修改）锁时，将阻塞查询。例如，数据定义语言 (DDL) 操作在修改表的架构信息之前获取 Sch-M 锁。所有并发查询（包括那些使用 READUNCOMMITTED 或 NOLOCK 提示运行的查询）都会在尝试获取 Sch-S 锁时被阻塞。相反，持有 Sch-S 锁的查询将阻塞尝试获取 Sch-M 锁的并发事务。有关锁行为的详细信息，请参阅锁兼容性（数据库引擎）。
+   3:  不能为通过插入、更新或删除操作修改过的表指定 READUNCOMMITTED 和 NOLOCK。SQL Server 查询优化器忽略 FROM 子句中应用于 UPDATE 或 DELETE 语句的目标表的 READUNCOMMITTED 和 NOLOCK 提示。
+
+功能使用：
+使用WITH(NOLOCK)时查询不受其它排他锁阻塞，提高并发时查询性能
+WITH(NOLOCK) 不发布共享锁来阻止其他事务修改当前事务读取的数据
+
+弊端：
+会读取到脏数据
+
+注意:
+视图对象（单表）加 with(nolock) 等同于视图对象的表加 with(nolock)，但是为了管理还是建议直接在视图中直接写入with(nolock)
+增加字段等DML操作产生LCK_M_SCH_S依然会堵塞with(nolock)d的表
+
+使用场景：
+1.表数据变化很小/没有变化/产生的变化对查询没有影响，如基础数据表,历史数据表
+2.业务允许脏读情况出现涉及的表。
+3.数据量超大的表，出于性能考虑，而允许脏读。
+
+测试:
+create table tbzm (
+id int ,
+val varchar(100)
+)
+
+select @@spid
+
+--模拟事务运行
+BEGIN TRAN
+
+INSERT INTO tbzm values(1,'Tommy')
+
+--ROLLBACK
+
+
+select * from tbzm --block
+--Block Status：
+sleeping                      	MISCELLANEOUS                   	AWAITING COMMAND	BEGIN TRAN INSERT INTO tbzm values(1,'Tommy')
+suspended                     	LCK_M_S                         	SELECT          	select * from tbzm
+
+select * from tbzm with(nolock) --no block
+--查询出脏数据
+1	Tommy
+
+ROLLBACK
+drop table tbzm
+
+--=========================其他：
+WITH(NOLOCK)与 NOLOCK区别
+为了搞清楚WITH(NOLOCK)与NOLOCK的区别，我查了大量的资料，我们先看看下面三个SQL语句有啥区别
+
+    SELECT * FROM TEST NOLOCK
+
+    SELECT * FROM TEST (NOLOCK);
+
+    SELECT * FROM TEST WITH(NOLOCK);
+
+上面的问题概括起来也就是说NOLOCK、(NOLOCK)、 WITH(NOLOCK)的区别：
+
+1： NOLOCK这样的写法，其实NOLOCK其实只是别名的作用，而没有任何实质作用。所以不要粗心将(NOLOCK)写成NOLOCK
+
+2：（NOLOCK）与WITH(NOLOCK)其实功能上是一样的。(NOLOCK)只是WITH(NOLOCK)的别名,但是在SQL Server 2008及以后版本中，(NOLOCK)不推荐使用了，"不借助 WITH 关键字指定表提示”的写法已经过时了。
+

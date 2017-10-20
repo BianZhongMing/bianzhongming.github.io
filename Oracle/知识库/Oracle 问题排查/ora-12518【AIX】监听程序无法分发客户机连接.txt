@@ -1,0 +1,13 @@
+su - oracle
+0403-030 The fork function failed. Too many processes already exist.
+
+看来不是oracle的问题了
+# ps -ef|grep oracle|wc
+      126    1239   10614
+
+ # lsattr -E -l sys0 -a maxuproc
+ maxuproc 128 Maximum number of PROCESSES allowed per user True
+ # chdev -l sys0 -a maxuproc='800' 
+ sys0 changed
+
+问题解决
