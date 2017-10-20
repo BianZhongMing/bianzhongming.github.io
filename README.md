@@ -11,7 +11,7 @@
 
 - 微信二维码（Wechat QR）: 
 
-  ![wechatQR](D:\ImportantFies\LearnNotes\blog\wechatQR.jpg)
+  ![wechatQR](wechatQR.jpg)
 
 
 ### Hello, everyone.
