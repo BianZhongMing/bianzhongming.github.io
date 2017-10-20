@@ -1,0 +1,8 @@
+在linux中删除大量文件时，直接用rm会出现：-bash: /bin/rm: 参数列表过长，的错误。
+
+这时可以用find命令来结合使用。
+例：
+1、rm * -rf 改为:
+       find . -name "*" | xargs rm -rf '*' 就行了。
+2、rm test* -rf 改为:
+       find . -name "test*" | xargs rm -rf "test*"

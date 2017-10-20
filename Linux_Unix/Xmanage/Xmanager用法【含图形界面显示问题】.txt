@@ -1,0 +1,53 @@
+1、启动Xstart，按下列提示输入：
+  Name: Xterm
+  Host: 192.168.1.34（服务器ip）
+  procotol: TELNET
+  User: root
+  Password: 123456
+   点击“Save”，保存。记得修改端口
+   点击“Run”运行Xmanager。
+2、在用户的目录下找到文件.bash_profile或profile，用vi对其进行编辑。加入下列命令行：
+DISPLAY=192.168.1.71:0.0;export DISPLAY 
+3、保存，退出。
+4、如果只想临时在客户端用一下图形界面，无需进行第4、5步，直接在xshell界面的命令行中输入：
+    export DISPLAY=192.168.1.71:0.0
+   输入xclock测试,如果弹出时钟窗口则设置成功
+   然后就可以在命令行中运行图形界面程序了。
+5、测试。
+   运行gedit，应该出现图形界面。
+（注：192.168.1.71是你客户端的IP地址）
+ 
+export DISPLAY=hostdomain:0.0是用来设置环境变量的语句，写在本用户根目录下的.bashrc文件里，此文件是隐藏文件，用ls   -a命令可以看到它。（不写在.bashrc文件里也可以，直接在控制台里键入export  DISPLAY=hostdomain:0.0  
+  ，这样做只是暂时的，重启后即会失效）   DISPLAY是控制远程连接xwindow的，例如服务器上装的是linux，你用windows通过telnet运行服务器上的程序，如果程序运行后可能弹出一个窗口，这是你就需要把DISPLAY环境变量设置成为192.168.1.11:0.0(假设你用的windows机器的IP是192.168.1.11)，否则窗口是不会弹出来的/  
+远程连接xwindow时用
+设（导出）一环境变量。你可在在执行了这个语句后用echo　$DISPLAY打出它的值，也可在程序中用getenv去访问这个值。
+
+先启动Xmanager - Passive
+
+【问题解决】
+(1)Gtk-WARNING **: cannot open display:
+http://blog.csdn.net/nowdoit/article/details/7547039
+
+(2)xshell与xmanager配合显示远程服务器的图形界面  
+
+今天用xshell想远程界面显示服务器节点的vmware图形界面，报错：DISPLAY is not set, unable to open the VMware Workstation user interface。
+然后我试着用vncviewer连接远程服务器，也报错：
+[root@node2 ~]# vncviewer 127.0.0.1:1
+TigerVNC Viewer for X version 1.0.90 - built Nov 12 2010 00:09:01
+Copyright (C) 2002-2005 RealVNC Ltd.
+Copyright (C) 2000-2006 TightVNC Group
+Copyright (C) 2004-2009 Peter Astrand for Cendio AB
+See http://www.tigervnc.org for information on TigerVNC.
+vncviewer: unable to open display ""
+搜了下，发现问题出现在ssh属性的设置上。
+查看ssh连接的属性，SSH->Tunneling->X11Forwarding发现这里没有勾选，勾选“Forwrad X11 connection to:”,选择Xmanager，确定后再连接，就好了！
+
+（3）某个用户能显示xclock（图形界面），其他用户不能显示。
+export
+参照法
+
+【注意】
+Xmanage-Broadcast远程桌面登录AIX，export DIAPLAY=远程机子的客户端IP（而非本地(127.0.0.1)IP）:对应程序的显示编号（窗口标题栏）
+
+
+另：Linux本地0.0打不开，运行xhost

@@ -1,0 +1,19 @@
+（1）查看已经安装的内核 
+命令：rpm -q kernel 
+显示结果：
+kernel-2.6.32-279.14.1.el6.i686 
+kernel-2.6.32-279.el6.x86_64
+kernel-2.6.32-358.6.1.el6.x86_64
+（2）删除旧的内核
+方法一：
+安装yum-utls： yum install -y yum-utils 
+设置你想要保留多少旧的内核，比如我想保留两个：sudo package-cleanup --oldkernels --count=2 
+再次用rpm -q kernel查看内核信息，只剩最新的两个：
+kernel-2.6.32-279.el6.x86_64
+kernel-2.6.32-358.6.1.el6.x86_64
+方法二：
+rpm -e kernel-2.6.32-279.14.1.el6.i686
+(3) 设置永久的内核安装数量 ，我设置的是两个 
+sudo vi /etc/yum.conf 
+设置installonly_limit=2 
+(4) 重启，就只会看见两个内核启动项了。

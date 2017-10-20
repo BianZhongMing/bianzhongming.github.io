@@ -1,0 +1,275 @@
+Hostname: ncdb2       Server: 172.19.100.122
+Time: 2014-09-27 10:17:00
+
+                                 SYSTEM CHECK REPORT
+                                 ===================
+ 
+***************************************** Check CPU *****************************************
+
+System configuration: lcpu=8 mem=31936MB
+
+kthr    memory              page              faults        cpu    
+----- ----------- ------------------------ ------------ -----------
+ r  b   avm   fre  re  pi  po  fr   sr  cy  in   sy  cs us sy id wa
+ 2  0 6654452 687516   0   0   0   0    0   0 2868 43758 11200 17  7 65 11
+ 2  0 6654467 687501   0   0   0   0    0   0 3133 51504 12406 18  6 66 10
+ 1  0 6654495 687473   0   0   0   0    0   0 3507 44649 13423 18  6 74  1
+ 2  0 6654514 687454   0   0   0   0    0   0 2202 36711 9765 12  5 81  1
+ 0  0 6654487 687481   0   0   0   0    0   0 1705 22658 7849 11  3 82  4
+ 0  0 6654471 687497   0   0   0   0    0   0 3214 43412 13283 20  6 71  3
+ 1  0 6654491 687477   0   0   0   0    0   0 3455 51751 13813 26  7 64  3
+ 2  0 6654572 687396   0   0   0   0    0   0 3491 49296 14340 20  7 72  1
+ 0  0 6654570 687398   0   0   0   0    0   0 3308 44153 13697 20  6 72  2
+ 1  0 6654490 687478   0   0   0   0    0   0 2877 45596 12625 17  6 75  2
+The average usage of cpu is :27.8
+				 CPU负载正常!!
+
+
+***************************************** check memory useage *****************************************
+
+System configuration: lcpu=8 mem=31936MB
+
+kthr    memory              page              faults        cpu    
+----- ----------- ------------------------ ------------ -----------
+ r  b   avm   fre  re  pi  po  fr   sr  cy  in   sy  cs us sy id wa
+ 2  0 6654452 687516   0   0   0   0    0   0 2868 43758 11200 17  7 65 11
+ 2  0 6654467 687501   0   0   0   0    0   0 3133 51504 12406 18  6 66 10
+ 1  0 6654495 687473   0   0   0   0    0   0 3507 44649 13423 18  6 74  1
+ 2  0 6654514 687454   0   0   0   0    0   0 2202 36711 9765 12  5 81  1
+ 0  0 6654487 687481   0   0   0   0    0   0 1705 22658 7849 11  3 82  4
+ 0  0 6654471 687497   0   0   0   0    0   0 3214 43412 13283 20  6 71  3
+ 1  0 6654491 687477   0   0   0   0    0   0 3455 51751 13813 26  7 64  3
+ 2  0 6654572 687396   0   0   0   0    0   0 3491 49296 14340 20  7 72  1
+ 0  0 6654570 687398   0   0   0   0    0   0 3308 44153 13697 20  6 72  2
+ 1  0 6654490 687478   0   0   0   0    0   0 2877 45596 12625 17  6 75  2
+The average usage of cpu is :27.8
+				Memory负载正常!!
+
+
+***************************************** check disk space *****************************************
+Filesystem    1024-blocks      Free %Used    Iused %Iused Mounted on
+/dev/hd4          4194304   3609308   14%     3381     1% /
+/dev/hd2          5242880   3514264   33%    40933     5% /usr
+/dev/hd9var       2097152   1846240   12%     1494     1% /var
+/dev/hd3          8388608   8337424    1%      535     1% /tmp
+/dev/fwdump        524288    523880    1%        4     1% /var/adm/ras/platform
+/dev/hd1          4194304   3932784    7%      305     1% /home
+/proc                   -         -    -         -     -  /proc
+/dev/hd10opt      5242880   5033104    5%     6446     1% /opt
+/dev/fslv00      20971520   5351164   75%    46824     4% /oracle
+/dev/fslv01      20971520  20967968    1%        5     1% /arch
+/dev/lv00        62914560  19079348   70%       59     1% /back
+ncdb1:/nfsbacka    62914560  62361576    1%       12     1% /nfsbacka
+				 磁盘空间/		使用正常!!
+				 磁盘空间/usr		使用正常!!
+				 磁盘空间/var		使用正常!!
+				 磁盘空间/tmp		使用正常!!
+				 磁盘空间/var/adm/ras/platform		使用正常!!
+				 磁盘空间/home		使用正常!!
+				 磁盘空间/opt		使用正常!!
+				 磁盘空间/oracle		使用正常!!
+				 磁盘空间/arch		使用正常!!
+				 磁盘空间/back		使用正常!!
+				 磁盘空间/nfsbacka		使用正常!!
+
+
+***************************************** check iostat *****************************************
+
+System configuration: lcpu=8 drives=19 paths=2 vdisks=0
+
+tty:      tin         tout    avg-cpu: % user % sys % idle % iowait
+          0.0          0.0               16.8   7.2   73.8      2.2
+
+Disks:        % tm_act     Kbps      tps    Kb_read   Kb_wrtn
+hdisk1          15.0     213.0      51.0          0       213
+hdisk0          15.0     177.0      42.0          0       177
+dac3             0.0       0.0       0.0          0         0
+dac3utm          0.0       0.0       0.0          0         0
+dac2             0.0     35873.0     1309.0      35809        64
+dac2utm          0.0       0.0       0.0          0         0
+hdisk2          14.0     10696.0     137.0      10688         8
+hdisk3          67.0     25177.0     1172.0      25121        56
+hdisk4           0.0       0.0       0.0          0         0
+hdisk5           0.0       0.0       0.0          0         0
+hdisk6           0.0       0.0       0.0          0         0
+hdisk7           0.0       0.0       0.0          0         0
+hdisk8           0.0       0.0       0.0          0         0
+hdisk9           0.0       0.0       0.0          0         0
+hdisk10          0.0       0.0       0.0          0         0
+hdisk11          0.0       0.0       0.0          0         0
+hdisk12          0.0       0.0       0.0          0         0
+hdisk13          0.0       0.0       0.0          0         0
+cd0              0.0       0.0       0.0          0         0
+
+tty:      tin         tout    avg-cpu: % user % sys % idle % iowait
+          0.0          0.0               20.0   5.0   68.8      6.2
+
+Disks:        % tm_act     Kbps      tps    Kb_read   Kb_wrtn
+hdisk1           0.0       0.0       0.0          0         0
+hdisk0           0.0       0.0       0.0          0         0
+dac3             0.0       0.0       0.0          0         0
+dac3utm          0.0       0.0       0.0          0         0
+dac2             0.0     26845.0     1330.0      26817        28
+dac2utm          0.0       0.0       0.0          0         0
+hdisk2          19.0     280.0      35.0        280         0
+hdisk3          76.0     26517.0     1289.0      26489        28
+hdisk4           1.0       8.0       1.0          8         0
+hdisk5           0.0       0.0       0.0          0         0
+hdisk6           3.0      40.0       5.0         40         0
+hdisk7           0.0       0.0       0.0          0         0
+hdisk8           0.0       0.0       0.0          0         0
+hdisk9           0.0       0.0       0.0          0         0
+hdisk10          0.0       0.0       0.0          0         0
+hdisk11          0.0       0.0       0.0          0         0
+hdisk12          0.0       0.0       0.0          0         0
+hdisk13          0.0       0.0       0.0          0         0
+cd0              0.0       0.0       0.0          0         0
+
+tty:      tin         tout    avg-cpu: % user % sys % idle % iowait
+          0.0          0.0               17.8   5.5   74.3      2.4
+
+Disks:        % tm_act     Kbps      tps    Kb_read   Kb_wrtn
+hdisk1           0.0       0.0       0.0          0         0
+hdisk0           0.0       0.0       0.0          0         0
+dac3             0.0       0.0       0.0          0         0
+dac3utm          0.0       0.0       0.0          0         0
+dac2             0.0     29547.0     1350.0      29545         2
+dac2utm          0.0       0.0       0.0          0         0
+hdisk2          27.0     11440.0     272.0      11440         0
+hdisk3          59.0     18107.0     1078.0      18105         2
+hdisk4           0.0       0.0       0.0          0         0
+hdisk5           0.0       0.0       0.0          0         0
+hdisk6           0.0       0.0       0.0          0         0
+hdisk7           0.0       0.0       0.0          0         0
+hdisk8           0.0       0.0       0.0          0         0
+hdisk9           0.0       0.0       0.0          0         0
+hdisk10          0.0       0.0       0.0          0         0
+hdisk11          0.0       0.0       0.0          0         0
+hdisk12          0.0       0.0       0.0          0         0
+hdisk13          0.0       0.0       0.0          0         0
+cd0              0.0       0.0       0.0          0         0
+
+
+***************************************** check netstat *****************************************
+Name  Mtu   Network     Address            Ipkts Ierrs    Opkts Oerrs  Coll
+en0   1500  link#2      0.1a.64.1e.dd.d8  2861350341     0 1754611169     3     0
+en0   1500  172.19.100  ncdb2             2861350341     0 1754611169     3     0
+en0   1500  172.19.100  ncdb2_vip         2861350341     0 1754611169     3     0
+en1   1500  link#3      0.1a.64.1e.dd.d9  27022456     0 24010919     2     0
+en1   1500  10.1.1      ncdb2_priv        27022456     0 24010919     2     0
+lo0   16896 link#1                        62818128     0 62828289     0     0
+lo0   16896 127         loopback          62818128     0 62828289     0     0
+lo0   16896 ::1                           62818128     0 62828289     0     0
+
+
+***************************************** check system err *****************************************
+IDENTIFIER TIMESTAMP  T C RESOURCE_NAME  DESCRIPTION
+F6FDF227   0909145314 T S tty0           FAILURE CAUSED AUTOMATIC RESET
+F6FDF227   0909145314 T S tty0           FAILURE CAUSED AUTOMATIC RESET
+F6FDF227   0909145314 T S tty0           FAILURE CAUSED AUTOMATIC RESET
+F6FDF227   0909145314 T S tty0           FAILURE CAUSED AUTOMATIC RESET
+F6FDF227   0909145314 T S tty0           FAILURE CAUSED AUTOMATIC RESET
+F6FDF227   0909145314 T S tty0           FAILURE CAUSED AUTOMATIC RESET
+F6FDF227   0909145314 T S tty0           FAILURE CAUSED AUTOMATIC RESET
+F6FDF227   0909145314 T S tty0           FAILURE CAUSED AUTOMATIC RESET
+F6FDF227   0909145314 T S tty0           FAILURE CAUSED AUTOMATIC RESET
+
+
+***************************************** check HACMP status *****************************************
+hdisk0          00cbb29166938c92                    rootvg          active
+hdisk1          00cbb29167012ab4                    rootvg          active
+hdisk2          00cbb4716acded70                    datavg          concurrent
+hdisk3          00cbb4716ace3010                    datavg          concurrent
+hdisk4          00cbb471e5709036                    datavg          concurrent
+hdisk5          00cbb471e570bbf6                    datavg          concurrent
+hdisk6          00cbb471e570c73e                    datavg          concurrent
+hdisk7          00cbb471e570fe4e                    datavg          concurrent
+hdisk8          none                                None            
+hdisk9          none                                None            
+hdisk10         none                                None            
+hdisk11         none                                None            
+hdisk12         none                                None            
+hdisk13         none                                None            
+
+
+***************************************** check ntpd status *****************************************
+ Program name:    /usr/sbin/xntpd 
+ Version:         3 
+ Leap indicator:  00 (No leap second today.) 
+ Sys peer:        ncdb1 
+ Sys stratum:     3 
+ Sys precision:   -18 
+ Debug/Tracing:   DISABLED 
+ Root distance:   0.000534 
+ Root dispersion: 10.091797 
+ Reference ID:    172.19.100.121 
+ Reference time:  d7d09c71.a6b2a000  Sat, Sep 27 2014 10:16:17.651 
+ Broadcast delay: 0.003906 (sec) 
+ Auth delay:      0.000122 (sec) 
+ System flags:    bclient pll monitor filegen  
+ System uptime:   5172053 (sec) 
+ Clock stability: 0.124313 (sec) 
+ Clock frequency: 0.000000 (sec) 
+ Peer: ncdb1 
+      flags: (configured)(sys peer) 
+      stratum:  2, version: 3 
+      our mode: client, his mode: server 
+Subsystem         Group            PID          Status 
+ xntpd            tcpip            803038       active
+
+
+***************************************** check HACMP CRS *****************************************
+Name           Type           Target    State     Host        
+------------------------------------------------------------
+ora.nc.db      application    ONLINE    ONLINE    ncdb1       
+ora....c1.inst application    ONLINE    ONLINE    ncdb1       
+ora....c2.inst application    ONLINE    ONLINE    ncdb2       
+ora....B1.lsnr application    ONLINE    ONLINE    ncdb1       
+ora.ncdb1.gsd  application    ONLINE    ONLINE    ncdb1       
+ora.ncdb1.ons  application    ONLINE    ONLINE    ncdb1       
+ora.ncdb1.vip  application    ONLINE    ONLINE    ncdb1       
+ora....B2.lsnr application    ONLINE    ONLINE    ncdb2       
+ora.ncdb2.gsd  application    ONLINE    ONLINE    ncdb2       
+ora.ncdb2.ons  application    ONLINE    ONLINE    ncdb2       
+ora.ncdb2.vip  application    ONLINE    ONLINE    ncdb2       
+
+
+***************************************** check oracle process *****************************************
+  oracle  332024       1   0   Jul 29      - 20:35 ora_cjq0_nc2 
+  oracle  446586       1   0   Jul 29      -  0:11 ora_reco_nc2 
+  oracle  634952       1   0   Aug 02      -  2:19 ora_arc0_nc2 
+  oracle  647208       1   0   Jul 29      - 73:57 ora_lck0_nc2 
+  oracle  659648       1   0   Jul 29      - 22:08 ora_diag_nc2 
+  oracle  671898       1   0   Jul 29      - 370:46 ora_lmon_nc2 
+  oracle  696498       1   0   Jul 29      -  1:50 ora_psp0_nc2 
+  oracle  700520       1   0   Jul 29      - 20:25 ora_ckpt_nc2 
+  oracle  716914       1   0   Jul 29      -  1:54 ora_qmnc_nc2 
+  oracle  782524       1   0   Jul 29      - 44:32 ora_mmnl_nc2 
+  oracle  831526       1   3   Jul 29      - 1001:58 ora_lms0_nc2 
+  oracle  839860       1   0   Jul 29      -  0:00 ora_q001_nc2 
+  oracle  856250       1   0   Jul 29      -  7:31 ora_dbw1_nc2 
+  oracle  864394       1   3   Jul 29      - 969:10 ora_lms1_nc2 
+  oracle  888834       1   0   Jul 29      - 24:56 ora_mmon_nc2 
+  oracle  897054       1   0   Jul 29      -  7:50 ora_dbw0_nc2 
+  oracle  905414       1   0   Jul 29      -  7:29 ora_dbw3_nc2 
+  oracle  930038       1   0   Jul 29      - 18:24 ora_pmon_nc2 
+  oracle 1003652       1   0   Jul 29      - 179:36 ora_lmd0_nc2 
+  oracle 1007802       1  52   Sep 22      - 452:57 ora_j000_nc2 
+  oracle 1019956       1   0   Jul 29      - 70:18 ora_smon_nc2 
+  oracle 1024008       1   0   Jul 29      -  7:26 ora_dbw2_nc2 
+  oracle 1052846       1   0   Jul 29      -  0:20 ora_q000_nc2 
+  oracle 1056802       1   0   Jul 29      - 12:36 ora_lgwr_nc2 
+  oracle 1089666       1   0   Jul 29      -  5:42 ora_mman_nc2 
+  oracle 1675458       1   0 20:59:33      -  2:45 ora_j001_nc2 
+  oracle 1753242       1   0   Aug 02      -  3:32 ora_arc1_nc2 
+  oracle 1818722       1   0   Aug 02      - 21:25 ora_pz99_nc2 
+
+
+***************************************** check oracle listener *****************************************
+  oracle  893130       1   0   Jul 29      - 172:51 /oracle/product/10.2/db/bin/tnslsnr LISTENER_NCDB2 -inherit 
+
+
+***************************************** check oracle alert *****************************************
+
+
+***************************************** check backup *****************************************

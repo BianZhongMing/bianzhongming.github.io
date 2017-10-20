@@ -1,0 +1,37 @@
+aix删除ip或者停止ip命令整理
+ 
+1、直接smit命令
+smit inet
+                                            Change / Show a Standard Ethernet Interface
+Type or select values in entry fields.
+Press Enter AFTER making all desired changes.  www.2cto.com  
+  
+                                                        [Entry Fields]
+  Network Interface Name                              en1                                              
+  INTERNET ADDRESS (dotted decimal)                  [192.168.128.20]
+  Network MASK (hexadecimal or dotted decimal)       [255.255.255.0]
+  Current STATE                                       detach                                                                     +
+  Use Address Resolution Protocol (ARP)?              yes                                                                        +
+  BROADCAST ADDRESS (dotted decimal)                 []
+  Interface Specific Network Options
+     ('NULL' will unset the option)
+    rfc1323                                          []
+    tcp_mssdflt                                      []
+    tcp_nodelay                                      []
+    tcp_recvspace                                    []
+    tcp_sendspace                                    []
+  Apply change to DATABASE only                       no                                                                         +
+
+2、命令行方式
+停用网卡
+ifconfig enX down  --临时停用，重启会恢复
+ifconfig enX detach  --彻底停用
+删除网卡  
+rmdev -dl enX
+rmdev -dl etX
+rmdev -dl entX
+修改hosts文件
+vi /etc/hosts
+重新安装硬件
+cfgmgr -v
+让系统自动再配置一次

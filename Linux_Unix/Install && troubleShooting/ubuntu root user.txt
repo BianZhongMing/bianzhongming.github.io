@@ -1,0 +1,21 @@
+执行：sudo passwd -u root  # 来启用我们的root账户，如果你后悔了可以执行 sudo passwd -l root 来重新lock root用户。
+
+　　注意：sudo执行时输入的密码都是你当前用户的密码，不是root的密码。而且要保证你的用户具备了这种权限，配置文件在/etc/sudoers中。
+
+　　然后给root创建一个密码：sudo passwd root   #看准提示进行输入，root的密码最好和其他用户的密码不同，不然会遇到一些麻烦。
+
+　　现在root用户也不被禁用了，也有密码了，那么如何使用root进行登录呢？
+
+
+
+修改系统配置文件需要切换到超级用户模式,在终端窗口里面输入: sudo  -s.然后输入普通用户登陆的密码，回车即可进入 root用户权限模式。
+
+然后执行: sudo gedit /etc/lightdm/lightdm.conf 
+
+增加 greeter-show-manual-login=true  allow-guest=false  . 修改完的整个配置文件是
+
+[SeatDefaults] 
+greeter-session=unity-greeter 
+user-session=ubuntu 
+greeter-show-manual-login=true 
+allow-guest=false 

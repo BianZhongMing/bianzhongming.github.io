@@ -1,0 +1,111 @@
+linux下查看硬盘使用情况
+
+一、df -lh 命令
+
+df 是来自于coreutils 软件包，系统安装时，就自带的；我们通过这个命令可以查看磁盘的使用情况以及文件系统被挂载的位置；
+[root@localhost ~]# df -l
+文件系统                 容量       已用       可用    已用% 挂载点
+/dev/sda3              4956316   3565088   1135396 76% /
+tmpfs                   241320         12    241308   1%   /dev/shm
+/dev/sda6              4806904   2523708   2039012 56% /media/disk
+/dev/sda1              4956284   3529796   1170656 76% /media/_
+/dev/sda5              4845056   2581484   2019388 57% /media/disk-1
+
+可以看到系统挂在sda3上，另外还挂了sda6/sda1/sda5三个系统。
+
+二、fdisk －l 命令
+
+fdisk 是一款强大的磁盘操作工具，来自util-linux软件包，我们在这里只说他如何查看磁盘分区表及分区结构；通过-l 参数，能获得机器中所有的硬盘的分区情况；
+[root@localhost ~]# fdisk -l
+
+Disk /dev/sda: 40.0 GB, 40000000000 bytes
+255 heads, 63 sectors/track, 4863 cylinders
+Units = cylinders of 16065 * 512 = 8225280 bytes
+Disk identifier: 0x62a9f8d0
+
+   Device Boot      Start         End      Blocks   Id System
+/dev/sda1   *           1         637     5116671   83 Linux
+/dev/sda2             638         891     2040255   82 Linux swap / Solaris
+/dev/sda3             892        1528     5116702+ 83 Linux
+/dev/sda4            1529        2744     9767520    5 Extended
+/dev/sda5            1529        2136     4883728+ 83 Linux
+/dev/sda6            2137        2744     4883728+ 83 Linux
+
+sda1是MBR（主引导记录）所在的分区；sda2是交换分区；sda4是扩展分区，包括了sda5,sda6两个逻辑分区。系统划分分区的时候只能划分4个主分区（扩展分区也算主分区），我在上面分了3个主分区+1个Extended分区，5.6是逻辑分区。所以才会有 sda1.2.3.4.5.6。如果你只划分了1个主分区+1个扩展分区，那么逻辑分区就从sda5开始了，sda1.2.5.6...
+
+三、cfdisk -Ps命令 （注意P是大写）
+cfdisk 也是一款不错的分区工具；在有些发行版中，此工具已经从util-linux包中剔除；cfdisk 简单易用是他的特点；
+查看磁盘分区的用法   cfdisk   -Ps 磁盘设备名 只有一个硬盘也可以用 cfdisk -Ps
+
+例1：[root@localhost ~]# cfdisk -Ps
+Partition Table for /dev/sda
+
+                First         Last
+# Type        Sector      Sector       Offset     Length      Filesystem Type         (ID) Flag
+-- -------   ----------- -----------    ------   ----------- --------------------      －－－----
+1 Primary           0     10233404     63      10233405         Linux (83)             Boot
+2 Primary    10233405    14313914      0       4080510       Linux swap / So (82)    None
+3 Primary    14313915    24547319      0      10233405         Linux (83)             None
+4 Primary    24547320    44082359      0      19535040       Extended (05)           None
+5 Logical    24547320     34314839     63       9767520        Linux (83)             None
+6 Logical    34314840    44082359     63       9767520         Linux (83)             None
+   Logical    44082360    78124094      0      34041735         Free Space            None
+
+例2：[root@localhost ~]# cfdisk -Ps /dev/sda
+Partition Table for /dev/sda
+
+               First       Last
+# Type       Sector      Sector   Offset    Length   Filesystem Type (ID) Flag
+-- ------- ----------- ----------- ------ ----------- -------------------- ----
+1 Primary           0    10233404     63    10233405 Linux (83)           Boot
+2 Primary    10233405    14313914      0     4080510 Linux swap / So (82) None
+3 Primary    14313915    24547319      0    10233405 Linux (83)           None
+4 Primary    24547320    44082359      0    19535040 Extended (05)        None
+5 Logical    24547320    34314839     63     9767520 Linux (83)           None
+6 Logical    34314840    44082359     63     9767520 Linux (83)           None
+   Logical    44082360    78124094      0    34041735 Free Space           None
+
+四、parted 命令
+parted   功能不错的分区工具；在Fedora 8中有带，可以自己安装上；调用方法简单，parted 默认是打开的设备是/dev/hda ，也可以自己指定；比如   parted /dev/hda 或/dev/sda 等；退出的方法是 quit
+
+输入parted命令后要等会儿才会出现下面的内容：
+[root@localhost ~]# parted
+GNU Parted 1.8.6
+使用 /dev/sda
+Welcome to GNU Parted! Type 'help' to view a list of commands.
+(parted)
+
+在光标那里输入p回车出现下面内容：
+
+Model: ATA Maxtor 5T040H4 (scsi)
+Disk /dev/sda: 40.0GB
+Sector size (logical/physical): 512B/512B
+Partition Table: msdos
+
+Number Start     End     S ize     Type   File system     标志
+1      32.3kB   5240MB 5239MB   主分区    ext3          启动
+2      5240MB 7329MB 2089MB 主分区    linux-swap       
+3      7329MB 12.6GB 5240MB   主分区    ext3             
+4      12.6GB 22.6GB   10.0GB 扩展分区                   
+5      12.6GB 17.6GB   5001MB 逻辑分区   ext3             
+6      17.6GB 22.6GB   5001MB 逻辑分区   ext3            
+
+(parted) 
+在光标后面输入quit退出。
+
+五、sfdisk -l
+
+[root@localhost ~]# sfdisk -l
+
+Disk /dev/sda: 4863 cylinders, 255 heads, 63 sectors/track
+Units = cylinders of 8225280 bytes, blocks of 1024 bytes, counting from 0
+
+   Device Boot Start     End   #cyls    #blocks   Id System
+/dev/sda1   *      0+    636     637-   5116671   83 Linux
+/dev/sda2        637     890     254    2040255   82 Linux swap / Solaris
+/dev/sda3        891    1527     637    5116702+ 83 Linux
+/dev/sda4       1528    2743    1216    9767520    5 Extended
+/dev/sda5       1528+   2135     608-   4883728+ 83 Linux
+/dev/sda6       2136+   2743     608-   4883728+ 83 Linux
+
+六、也可以使用   应用程序>系统工具>磁盘使用分析器   来查看磁盘使用情况

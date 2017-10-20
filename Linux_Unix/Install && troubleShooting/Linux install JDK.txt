@@ -1,0 +1,25 @@
+#vi /etc/profile
+
+在里面添加如下内容
+export JAVA_HOME=/usr/java/jdk1.6.0_27
+export JAVA_BIN=/usr/java/jdk1.6.0_27/bin
+export PATH=$PATH:$JAVA_HOME/bin
+export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
+export JAVA_HOME JAVA_BIN PATH CLASSPATH
+让/etc/profile文件修改后立即生效 ,可以使用如下命令:
+
+ # . /etc/profile
+
+注意: . 和 /etc/profile 有空格. 
+
+ 
+重启测试
+
+  java -version
+
+  屏幕输出:
+
+  java version "jdk1.6.0_02"
+  Java(TM) 2 Runtime Environment, Standard Edition (build jdk1.6.0_02)
+  Java HotSpot(TM) Client VM (build jdk1.6.0_02, mixed mode)
+

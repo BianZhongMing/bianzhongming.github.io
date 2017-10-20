@@ -1,0 +1,13 @@
+xshell
+rz:直接弹出上传文件窗口
+sz:下载
+
+### 文本处理
+http://blog.csdn.net/teamlet/article/details/38046409/
+tail -400f demo.log #监控最后400行日志文件的变化 等价与 tail -n 400 -f （-f参数是实时）  
+less demo.log #查看日志文件，支持上下滚屏，查找功能  
+uniq -c demo.log  #标记该行重复的数量，不重复值为1 
+grep 'INFO' demo.log     #在文件demo.log中查找所有包行INFO的行  
+grep -o 'order-fix.curr_id:[0?9]\+' demo.log    #-o选项只提取order-fix.curr_id:xxx的内容（而不是一整行），并输出到屏幕上 
+grep -c 'ERROR' demo.log   #输出文件demo.log中查找所有包行ERROR的行的数量  
+grep -v 'ERROR' demo.log   #查找不含"ERROR"的行 

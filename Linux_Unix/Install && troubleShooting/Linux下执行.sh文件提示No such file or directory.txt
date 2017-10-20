@@ -1,0 +1,21 @@
+【现象】在Linux中执行.sh脚本，No such file or directory。（文件实际存在，单独执行某条命令没问题，在脚本里面就会报错）
+
+【分析】排除法确定是文件问题不是语句问题。
+【原因】不同系统编码格式引起的：在windows系统中编辑的.sh文件有不可见字符，所以在Linux系统下执行会报以上异常信息。 
+【解决】
+（1）vi编辑文件
+vi filename 
+（2）查看文件格式 
+:set ff 或 :set fileformat 
+可以看到如下信息 
+fileformat=dos 或 fileformat=unix 
+（3）修改文件格式 
+:set ff=unix 或 :set fileformat=unix 
+
+【避免】
+Windows新建的文件都是DOS格式（EditPlus里面右下角显示PC），需要在EditPlus里面转换成Unix格式（双击"PC"，选择Unix）。
+
+【知识】
+回车：CR；换行：LF
+Windows：行末[CR][LF]
+Unix/MAC os：行末[CR]

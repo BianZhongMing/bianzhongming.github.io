@@ -1,0 +1,1 @@
+最后用“./vmware-install.pl”命令来运行该安装程序

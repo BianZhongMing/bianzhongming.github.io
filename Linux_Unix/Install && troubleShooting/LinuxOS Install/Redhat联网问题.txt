@@ -1,0 +1,13 @@
+Rad Hat Linux 9上不去网的原因
+原因是VMware与Red Hat Linux 9之间的网卡驱动不兼容！当然也就无法使用“ifconfig eth0 up”激活虚拟网卡了！
+
+解决办法
+1、以root权限编辑/etc/sysconfig/network-scripts/ifcfg-eth0（假设网卡号是eth0），在文件尾部添加以下内容：
+check_link_down ()
+{
+return 1;
+}
+
+2、激活网卡。使用DHCP的话可以直接激活网卡，自动获取IP，使用命令：ifconfig eth0 up。
+
+3、双网卡：禁用一个网卡后使用。
