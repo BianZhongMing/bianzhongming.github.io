@@ -11,7 +11,7 @@ select * from testbzm
 -- 1	xm	2017-02-21 11:26:59
 
 update testbzm set uname='xm' where id=1
-# ÊÜÓ°ÏìµÄĞĞ: 0
+# å—å½±å“çš„è¡Œ: 0
 
 select * from testbzm 
 -- 1	xm	2017-02-21 11:26:59
