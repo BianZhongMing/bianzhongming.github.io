@@ -1,10 +1,10 @@
-sql*loader  ÊÇÒ»¸ö³ÌĞò,  ÓÃÀ´°Ñ  ÎÄ±¾ÎÄ¼şÀïÃæµÄÊı¾İ,   µ¼Èëµ½ Oracle Êı¾İ¿âÀïÃæ¡£
+sql*loader  æ˜¯ä¸€ä¸ªç¨‹åº,  ç”¨æ¥æŠŠ  æ–‡æœ¬æ–‡ä»¶é‡Œé¢çš„æ•°æ®,   å¯¼å…¥åˆ° Oracle æ•°æ®åº“é‡Œé¢ã€‚
 
-ÏÂÃæÊÇÒ»¸ö¼òµ¥µÄÀı×Ó£º
+ä¸‹é¢æ˜¯ä¸€ä¸ªç®€å•çš„ä¾‹å­ï¼š
 
 SQL*Loader
 
-Ê×ÏÈĞèÒªÒ»¸ö ¿ØÖÆÎÄ¼ştest_main.ctl£¬ÄÚÈİÈçÏÂ£º
+é¦–å…ˆéœ€è¦ä¸€ä¸ª æ§åˆ¶æ–‡ä»¶test_main.ctlï¼Œå†…å®¹å¦‚ä¸‹ï¼š
 LOAD DATA
 INFILE *
 INTO TABLE test_main
@@ -13,27 +13,27 @@ FIELDS TERMINATED BY ','
 BEGINDATA
 1,Test
 
-ÆäÖĞ£¬
-µÚÒ»ĞĞLOAD DATAÒâË¼ÊÇ¸æËßSQL*Loader£¬Òª¸ÉÉ¶? ÕâÀïÊÇ¼ÓÔØÊı¾İ¡£
-µÚ¶şĞĞINFILE *ÒâË¼ÊÇÊı¾İ´ÓÄÄÀïÀ´? ÕâÀïÊÇ°üº¬ÔÚ¿ØÖÆÎÄ¼şÖĞ¡£
-µÚÈıĞĞINTO TABLE ÒâË¼ÊÇÊı¾İÒªµ¼µ½ÄÄÀï£¿ ÕâÀïÊÇÒªµ½ test_main ±í¡£
-µÚËÄĞĞFIELDS TERMINATED BYÒâË¼ÊÇÊı¾İÖ®¼äÓÃÊ²Ã´·ûºÅ·Ö¸ô£¿ ÕâÀïÊÇÓÃ ¶ººÅ ·Ö¸ô¡£
-µÚÎåĞĞÊÇÊı¾İÒª°´Ê²Ã´Ë³ĞòĞ´µ½ÁĞÀïÃæ
-µÚÁùĞĞBEGINDATAÊÇ¸æËßSQL*Loader£¬ºóÃæµÄ¶¼ÊÇÊı¾İÁË¡£
+å…¶ä¸­ï¼Œ
+ç¬¬ä¸€è¡ŒLOAD DATAæ„æ€æ˜¯å‘Šè¯‰SQL*Loaderï¼Œè¦å¹²å•¥? è¿™é‡Œæ˜¯åŠ è½½æ•°æ®ã€‚
+ç¬¬äºŒè¡ŒINFILE *æ„æ€æ˜¯æ•°æ®ä»å“ªé‡Œæ¥? è¿™é‡Œæ˜¯åŒ…å«åœ¨æ§åˆ¶æ–‡ä»¶ä¸­ã€‚
+ç¬¬ä¸‰è¡ŒINTO TABLE æ„æ€æ˜¯æ•°æ®è¦å¯¼åˆ°å“ªé‡Œï¼Ÿ è¿™é‡Œæ˜¯è¦åˆ° test_main è¡¨ã€‚
+ç¬¬å››è¡ŒFIELDS TERMINATED BYæ„æ€æ˜¯æ•°æ®ä¹‹é—´ç”¨ä»€ä¹ˆç¬¦å·åˆ†éš”ï¼Ÿ è¿™é‡Œæ˜¯ç”¨ é€—å· åˆ†éš”ã€‚
+ç¬¬äº”è¡Œæ˜¯æ•°æ®è¦æŒ‰ä»€ä¹ˆé¡ºåºå†™åˆ°åˆ—é‡Œé¢
+ç¬¬å…­è¡ŒBEGINDATAæ˜¯å‘Šè¯‰SQL*Loaderï¼Œåé¢çš„éƒ½æ˜¯æ•°æ®äº†ã€‚
 
-È»ºó¿ªÊ¼ÔËĞĞ sqlldr ³ÌĞò
+ç„¶åå¼€å§‹è¿è¡Œ sqlldr ç¨‹åº
 
 D:\temp>sqlldr userid=test/test123 control=test_main.ctl
-SQL*Loader: Release 10.2.0.1.0 - Production on ĞÇÆÚÈÕ 3ÔÂ 13 14:58:22 2011
+SQL*Loader: Release 10.2.0.1.0 - Production on æ˜ŸæœŸæ—¥ 3æœˆ 13 14:58:22 2011
 Copyright (c) 1982, 2005, Oracle.  All rights reserved.
-SQL*Loader-601:  ¶ÔÓÚ INSERT Ñ¡Ïî, ±í±ØĞëÎª¿Õ¡£±í TEST_MAIN ÉÏ³ö´í
+SQL*Loader-601:  å¯¹äº INSERT é€‰é¡¹, è¡¨å¿…é¡»ä¸ºç©ºã€‚è¡¨ TEST_MAIN ä¸Šå‡ºé”™
 
-ÔÚ SQL Plus ÖĞ£¬
+åœ¨ SQL Plus ä¸­ï¼Œ
 SQL> truncate table test_main;
-±í±»½Ø¶Ï¡£
-ÒÔºó£¬ÔÙ´Î²âÊÔÖ´ĞĞ
+è¡¨è¢«æˆªæ–­ã€‚
+ä»¥åï¼Œå†æ¬¡æµ‹è¯•æ‰§è¡Œ
 
 D:\temp>sqlldr userid=test/test123 control=test_main.ctl
-SQL*Loader: Release 10.2.0.1.0 - Production on ĞÇÆÚÈÕ 3ÔÂ 13 14:58:56 2011
+SQL*Loader: Release 10.2.0.1.0 - Production on æ˜ŸæœŸæ—¥ 3æœˆ 13 14:58:56 2011
 Copyright (c) 1982, 2005, Oracle.  All rights reserved.
-´ïµ½Ìá½»µã - Âß¼­¼ÇÂ¼¼ÆÊı 1
+è¾¾åˆ°æäº¤ç‚¹ - é€»è¾‘è®°å½•è®¡æ•° 1
