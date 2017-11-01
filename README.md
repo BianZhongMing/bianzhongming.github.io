@@ -30,6 +30,8 @@
 
 - [SQLServer数据同步和导入方法小结.md](https://github.com/BianZhongMing/bianzhongming.github.io/blob/master/SQLServer/ETL%20%26%20SYNC%20DATA/SQLServer%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5%E5%92%8C%E5%AF%BC%E5%85%A5%E6%96%B9%E6%B3%95%E5%B0%8F%E7%BB%93.md)
 - [SQL注入解析](https://github.com/BianZhongMing/bianzhongming.github.io/blob/master/SQLServer/KeyPoint%26%26Sample/SQL%E6%B3%A8%E5%85%A5%E8%A7%A3%E6%9E%90.sql)
+- [SQLSERVER with(nolock) 解析](https://github.com/BianZhongMing/bianzhongming.github.io/blob/master/SQLServer/KeyPoint%26%26Sample/with(nolock).txt)
+- [几种中间表实现方式比较（临时表、表变量、CTE）](https://github.com/BianZhongMing/bianzhongming.github.io/blob/master/SQLServer/KeyPoint%26%26Sample/%E3%80%90SAMPLE%E3%80%91%20%E5%87%A0%E7%A7%8D%E4%B8%AD%E9%97%B4%E8%A1%A8%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F%E6%AF%94%E8%BE%83%EF%BC%88%E4%B8%B4%E6%97%B6%E8%A1%A8%E3%80%81%E8%A1%A8%E5%8F%98%E9%87%8F%E3%80%81CTE%EF%BC%89.sql)
 - ​
 
 ### 4. ORACLE

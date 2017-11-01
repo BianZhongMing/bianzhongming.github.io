@@ -1,17 +1,17 @@
 
 use master;
 GO
-create login uts_sync with password='_utssync123', default_database=DYMaster;
+create login db_sync with password='yourpassword', default_database=TESTDB;
 --获取对应DB的访问和管理权限
-use DYMaster;
+use TESTDB;
 GO
-create user uts_sync for login uts_sync with default_schema=dbo;
-exec sp_addrolemember 'db_owner', 'uts_sync';
+create user db_sync for login db_sync with default_schema=dbo;
+exec sp_addrolemember 'db_owner', 'db_sync';
 
-use DYMaster;
+use TESTDB;
 GO
 create user talend_load for login talend_load with default_schema=dbo;
-USE [DYMaster]
+USE [TESTDB]
 GO
 ALTER ROLE [db_datareader] ADD MEMBER [talend_load]
 GO
