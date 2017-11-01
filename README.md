@@ -2,7 +2,6 @@
 >
 > 如有问题, 可以发issue讨论, 或者微信/邮件联系。<a href="https://github.com/BianZhongMing/bianzhongming.github.io/blob/master/showMyself.md">简介和联系方式</a>
 >
-> 若主页直接查看MD文件存在乱码，请点击View on GitHub进行查看。
 
 
 ## 1.最新博文
