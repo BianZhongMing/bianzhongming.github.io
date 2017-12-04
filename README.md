@@ -113,7 +113,8 @@
 
 ### 5. Linux/Unix
 
-- **--------------------------DIR（暂未整理）：[链接](https://github.com/BianZhongMing/bianzhongming.github.io/tree/master/Linux_Unix)**
+- [**Linux系统瓶颈核查**](https://github.com/BianZhongMing/bianzhongming.github.io/blob/master/Linux_Unix/Linux%E7%B3%BB%E7%BB%9F%E7%93%B6%E9%A2%88%E6%A0%B8%E6%9F%A5/Linux%E7%B3%BB%E7%BB%9F%E7%93%B6%E9%A2%88%E6%A0%B8%E6%9F%A5.md)
+- --------------------------DIR（暂未整理）：[链接](https://github.com/BianZhongMing/bianzhongming.github.io/tree/master/Linux_Unix)**
 
 
 ## 
