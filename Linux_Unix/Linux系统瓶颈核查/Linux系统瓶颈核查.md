@@ -229,7 +229,7 @@ wa: IO等待消耗的CPU时间百分比，值高时，说明IO等待比较严重
      ```
 
   2. 查询带宽
-
+     ```
      	#  sudo ethtool em1
      	
      	Settings for em1:
@@ -261,7 +261,7 @@ wa: IO等待消耗的CPU时间百分比，值高时，说明IO等待比较严重
      	Current message level: 0x000000ff (255)
      			       drv probe link timer ifdown ifup rx_err tx_err
      	Link detected: yes
-
+     ```
   3. 压测监控
 
      ```
