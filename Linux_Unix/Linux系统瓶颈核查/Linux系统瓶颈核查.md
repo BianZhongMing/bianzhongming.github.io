@@ -38,6 +38,8 @@
 - 方法
 
   - CPU状态：当CPU的状态处在"waits"时，那是因为它正在等待I/O设备（例如内存，磁盘或者网络）的响应而且还没有收到。CPU状态：当CPU的状态处在"waits"时，那是因为它正在等待I/O设备（例如内存，磁盘或者网络）的响应而且还没有收到。
+  - cpu：hiq，siq分别为硬中断和软中断次数。
+  - system：int，csw分别为系统的中断次数（interrupt）和上下文切换（context switch）
   - 参数： 
 
     - -l ：显示负载统计量
@@ -85,6 +87,7 @@
 
 ## 3. 查看系统IO占用情况--iostat
 
+- 安装：yum install sysstat
 - 基本查询
 
 ```
@@ -108,17 +111,17 @@ sda          1.56  28.31  7.80 31.49   42.51    2.92    21.26     1.46     1.16 
 Device:    rrqm/s wrqm/s   r/s   w/s  rsec/s  wsec/s    rkB/s    wkB/s avgrq-sz avgqu-sz   await  svctm  %util
 sda          2.00  20.00 381.00  7.00 12320.00  216.00  6160.00   108.00    32.31     1.75    4.50   2.17  84.20
 
-rrqm/s：每秒这个设备相关的读取请求有多少被Merge了（当系统调用需要读取数据的时候，VFS将请求发到各个FS，如果FS发现不同的读取请求读取的是相同Block的数据，FS会将这个请求合并Merge）；wrqm/s：每秒这个设备相关的写入请求有多少被Merge了。
-
-rsec/s：每秒读取的扇区数；
-wsec/：每秒写入的扇区数。
-rKB/s：The number of read requests that were issued to the device per second；
-wKB/s：The number of write requests that were issued to the device per second；
-avgrq-sz 平均请求扇区的大小
-avgqu-sz 是平均请求队列的长度。毫无疑问，队列长度越短越好。    
-await：每一个IO请求的处理的平均时间（单位是微秒毫秒）。这里可以理解为IO的响应时间。这个时间包括了队列时间和服务时间。
-svctm：表示平均每次设备I/O操作的服务时间（以毫秒为单位）。
-%util：在统计时间内所有处理IO时间，除以总共统计时间。例如，如果统计间隔1秒，该设备有0.8秒在处理IO，而0.2秒闲置，那么该设备的%util = 0.8/1 = 80%，所以该参数暗示了设备的繁忙程度。
+rrqm/s: 每秒对该设备的读请求被合并次数，文件系统会对读取同块(block)的请求进行合并
+wrqm/s: 每秒对该设备的写请求被合并次数
+r/s: 每秒完成的读次数
+w/s: 每秒完成的写次数
+rkB/s: 每秒读数据量(kB为单位)
+wkB/s: 每秒写数据量(kB为单位)
+avgrq-sz:平均每次IO操作的数据量(扇区数为单位)
+avgqu-sz: 平均等待处理的IO请求队列长度
+await: 平均每次IO请求等待时间(包括等待时间和处理时间，毫秒为单位)
+svctm: 平均每次IO请求的处理时间(毫秒为单位)
+%util: 采用周期内用于IO操作的时间比率，即IO队列非空的时间比率，所以该参数暗示了设备的繁忙程度。
 ```
 
 - 常见用法
@@ -147,10 +150,136 @@ sda          1.56  28.31  7.84 31.50   43.65    3.16    21.82     1.58     1.19 
 sda          1.98  24.75 419.80  6.93 13465.35  253.47  6732.67   126.73    32.15     2.00    4.70   2.00  85.25
 sda          3.06  41.84 444.90 54.08 14204.08 2048.98  7102.04  1024.49    32.57     2.10    4.21   1.85  92.24
 可以看到磁盘的平均响应时间<5ms，磁盘使用率>80。磁盘响应正常，但是已经很繁忙了。
-
 ```
 一般地**系统IO响应时间await应该低于5ms**，如果大于10ms就比较大了。
 
 若**svctm的值与await很接近，表示几乎没有I/O等待，磁盘性能很好**，如果**await的值远高于svctm的值，则表示I/O队列等待太长，系统上运行的应用程序将变慢**。
 
 **%util一般地，如果该参数是100%表示设备已经接近满负荷运行了**（当然如果是多磁盘，即使%util是100%，因为磁盘的并发能力，所以磁盘使用未必就到了瓶颈）。
+
+
+
+## 4.内存占用--vmstat
+```
+# vmstat
+procs -----------memory---------- ---swap-- -----io---- --system-- -----cpu-----
+ r  b   swpd   free   buff  cache   si   so    bi    bo   in   cs us sy id wa st
+ 1  5 861712 280288 496656 19368480    0    0    12   124    1    0  3  1 95  2  0
+输出信息简介
+r: 运行的和等待运行的进程数，这个值也可以判断是否需要增加CPU(长期大于1) 
+b: 处于不可中断状态的进程数，常见的情况是由IO引起的
+w: 被交换出去的可运行的进程数。此数由 linux 计算得出，但 linux 并不耗尽交换空间
+
+Memory 
+swpd: 虚拟内存使用情况(默认以KB为单位)，如果 swpd 的值不为0，或者还比较大，比如超过100M了，但是 si, so 的值长期为 0，这种情况我们可以不用担心，不会影响系统性能。
+free: 空闲的内存，单位KB
+buff: 被用来做为缓存的内存数，单位：KB
+cache: 作为page cache的内存, 文件系统的cache，如果 cache 的值大的时候，说明cache住的文件数多，如果频繁访问到的文件都能被cache住，那么磁盘的读IO bi 会非常小。
+
+Swap 
+si: 从磁盘交换到内存的交换页数量，单位：KB/秒
+so: 从内存交换到磁盘的交换页数量，单位：KB/秒 
+内存够用的时候，这2个值都是0，如果这2个值长期大于0时，系统性能会受到影响。磁盘IO和CPU资源都会被消耗。(常有人看到空闲内存(free)很少或接近于0时，就认为内存不够用了，实际上不能光看这一点的，还要结合si,so，如果free很少，但是si,so也很少(大多时候是0)，那么不用担心，系统性能这时不会受到影响的。)
+
+IO 
+bi: 发送到块设备的块数，单位：块/秒
+随机磁盘读写的时候，这2个值越大（如超出1M），能看到CPU在IO等待的值也会越大bo: 从块设备接收到的块数，单位：块/秒 
+
+System 
+in: 每秒的中断数，包括时钟中断
+cs: 每秒的环境（上下文）切换次数
+上面这2个值越大，会看到由内核消耗的CPU时间会越多.
+
+CPU 按 CPU 的总使用百分比来显示 
+us:用户进程消耗的CPU时间百分比，值比较高时，说明用户进程消耗的CPU时间多，但是如果长期超过50% 的使用，那么我们就该考虑优化程序算法或者进行加速了
+sy: CPU 系统使用时间，内核进程消耗的CPU时间百分比，值高时，说明系统内核消耗的CPU资源多，这并不是良性的表现，我们应该检查原因。
+id: 闲置时间
+wa: IO等待消耗的CPU时间百分比，值高时，说明IO等待比较严重，这可能是由于磁盘大量作随机访问造成，也有可能是磁盘的带宽出现瓶颈(块操作)。
+```
+## 5. 网络带宽查询
+
+- 命令：
+  - ipconfig
+  - sudo ethtool NetLinkName
+  - dstat
+
+
+- DEMO：
+
+  1. 查询网络连接信息
+
+     ```
+     # ifconfig
+     em1       Link encap:Ethernet  HWaddr F8:BC:12:35:F6:2C  
+               inet addr:10.9.0.131  Bcast:10.9.0.255  Mask:255.255.255.128
+               UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+               RX packets:1116917733 errors:0 dropped:0 overruns:0 frame:0
+               TX packets:815842469 errors:0 dropped:0 overruns:0 carrier:0
+               collisions:0 txqueuelen:1000 
+               RX bytes:797177933386 (742.4 GiB)  TX bytes:260586066489 (242.6 GiB)
+               Interrupt:35 
+
+     lo        Link encap:Local Loopback  
+               inet addr:127.0.0.1  Mask:255.0.0.0
+               UP LOOPBACK RUNNING  MTU:16436  Metric:1
+               RX packets:5090043 errors:0 dropped:0 overruns:0 frame:0
+               TX packets:5090043 errors:0 dropped:0 overruns:0 carrier:0
+               collisions:0 txqueuelen:0 
+               RX bytes:246346809 (234.9 MiB)  TX bytes:246346809 (234.9 MiB)
+     ```
+
+  2. 查询带宽
+
+     	#  sudo ethtool em1
+     	
+     	Settings for em1:
+     	Supported ports: [ TP ]
+     	Supported link modes:   10baseT/Half 10baseT/Full 
+     	                        100baseT/Half 100baseT/Full 
+     	                        1000baseT/Half 1000baseT/Full 
+     	Supported pause frame use: No
+     	Supports auto-negotiation: Yes
+     	Advertised link modes:  10baseT/Half 10baseT/Full 
+     	                        100baseT/Half 100baseT/Full 
+     	                        1000baseT/Half 1000baseT/Full 
+     	Advertised pause frame use: Symmetric
+     	Advertised auto-negotiation: Yes
+     	Link partner advertised link modes:  10baseT/Half 10baseT/Full 
+     	                                     100baseT/Half 100baseT/Full 
+     	                                     1000baseT/Full 
+     	Link partner advertised pause frame use: No
+     	Link partner advertised auto-negotiation: Yes
+     	Speed: 1000Mb/s
+     	Duplex: Full
+     	Port: Twisted Pair
+     	PHYAD: 1
+     	Transceiver: internal
+     	Auto-negotiation: on
+     	MDI-X: off
+     	Supports Wake-on: g
+     	Wake-on: d
+     	Current message level: 0x000000ff (255)
+     			       drv probe link timer ifdown ifup rx_err tx_err
+     	Link detected: yes
+
+  3. 压测监控
+
+     ```
+     #dstat
+
+     ----total-cpu-usage---- -dsk/total- -net/total- ---paging-- ---system--
+     usr sys idl wai hiq siq| read  writ| recv  send|  in   out | int   csw 
+      10   0  89   0   0   0|   0     0 |1160k  118M|   0     0 |  28k 2433 
+      10   0  90   0   0   0|   0     0 |1158k  118M|   0     0 |  28k 2480 
+      10   0  89   0   0   0|   0     0 |1159k  118M|   0     0 |  28k 2547 
+      10   0  89   0   0   0|   0     0 |1130k  118M|   0     0 |  28k 2469 
+      10   0  89   0   0   0|   0     0 |1132k  118M|   0     0 |  28k 2310 
+      10   0  90   0   0   0|   0    12k|1147k  118M|   0     0 |  28k 2275 
+      10   0  90   0   0   0|   0     0 |1124k  118M|   0     0 |  28k 2308 
+      10   0  89   0   0   0|   0     0 |1026k  118M|   0     0 |  26k 2257 
+      10   0  90   0   0   0|   0    16k| 911k  118M|   0     0 |  22k 1961 
+     ```
+
+     Speed: 1000Mb/s=*1000*M /8 = 125M/s
+
+     下载速度：118M，接近满速，网络瓶颈场景。
