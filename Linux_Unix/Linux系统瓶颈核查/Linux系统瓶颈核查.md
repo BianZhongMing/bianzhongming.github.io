@@ -14,6 +14,9 @@
    ![2](2.png)
 
 
+- 其他工具：
+  - htop --支持鼠标交互
+  - nmon --综合显示系统整体情况，支持分析报表。
 
 ## 2. 系统资源监控--dstat
 
@@ -229,39 +232,41 @@ wa: IO等待消耗的CPU时间百分比，值高时，说明IO等待比较严重
      ```
 
   2. 查询带宽
-     ```
-     	#  sudo ethtool em1
-     	
-     	Settings for em1:
-     	Supported ports: [ TP ]
-     	Supported link modes:   10baseT/Half 10baseT/Full 
-     	                        100baseT/Half 100baseT/Full 
-     	                        1000baseT/Half 1000baseT/Full 
-     	Supported pause frame use: No
-     	Supports auto-negotiation: Yes
-     	Advertised link modes:  10baseT/Half 10baseT/Full 
-     	                        100baseT/Half 100baseT/Full 
-     	                        1000baseT/Half 1000baseT/Full 
-     	Advertised pause frame use: Symmetric
-     	Advertised auto-negotiation: Yes
-     	Link partner advertised link modes:  10baseT/Half 10baseT/Full 
-     	                                     100baseT/Half 100baseT/Full 
-     	                                     1000baseT/Full 
-     	Link partner advertised pause frame use: No
-     	Link partner advertised auto-negotiation: Yes
-     	Speed: 1000Mb/s
-     	Duplex: Full
-     	Port: Twisted Pair
-     	PHYAD: 1
-     	Transceiver: internal
-     	Auto-negotiation: on
-     	MDI-X: off
-     	Supports Wake-on: g
-     	Wake-on: d
-     	Current message level: 0x000000ff (255)
-     			       drv probe link timer ifdown ifup rx_err tx_err
-     	Link detected: yes
-     ```
+
+      ```
+      #  sudo ethtool em1
+
+      Settings for em1:
+      Supported ports: [ TP ]
+      Supported link modes:   10baseT/Half 10baseT/Full 
+                              100baseT/Half 100baseT/Full 
+                              1000baseT/Half 1000baseT/Full 
+      Supported pause frame use: No
+      Supports auto-negotiation: Yes
+      Advertised link modes:  10baseT/Half 10baseT/Full 
+                              100baseT/Half 100baseT/Full 
+                              1000baseT/Half 1000baseT/Full 
+      Advertised pause frame use: Symmetric
+      Advertised auto-negotiation: Yes
+      Link partner advertised link modes:  10baseT/Half 10baseT/Full 
+                                           100baseT/Half 100baseT/Full 
+                                           1000baseT/Full 
+      Link partner advertised pause frame use: No
+      Link partner advertised auto-negotiation: Yes
+      Speed: 1000Mb/s
+      Duplex: Full
+      Port: Twisted Pair
+      PHYAD: 1
+      Transceiver: internal
+      Auto-negotiation: on
+      MDI-X: off
+      Supports Wake-on: g
+      Wake-on: d
+      Current message level: 0x000000ff (255)
+      		       drv probe link timer ifdown ifup rx_err tx_err
+      Link detected: yes
+      ```
+
   3. 压测监控
 
      ```
