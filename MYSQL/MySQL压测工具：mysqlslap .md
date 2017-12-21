@@ -1,42 +1,42 @@
->Ñ¡ÔñslapµÄÔ­Òò£ºMysql×Ô´ø£¬²»ÓÃÁíÍâ°²×°£¬¼òµ¥·½±ã£»
->slapÁÓÊÆ£º²»Ö§³ÖSQL²ÎÊı»¯£¨Ö»ÄÜ´æ´¢¹ı³ÌÊµÏÖ£¬È»ºóµ÷È¡´æ´¢¹ı³Ì£©¡£
+>é€‰æ‹©slapçš„åŸå› ï¼šMysqlè‡ªå¸¦ï¼Œä¸ç”¨å¦å¤–å®‰è£…ï¼Œç®€å•æ–¹ä¾¿ï¼›
+>slapåŠ£åŠ¿ï¼šä¸æ”¯æŒSQLå‚æ•°åŒ–ï¼ˆåªèƒ½å­˜å‚¨è¿‡ç¨‹å®ç°ï¼Œç„¶åè°ƒå–å­˜å‚¨è¿‡ç¨‹ï¼‰ã€‚
 
-## 1.²ÎÊıËµÃ÷£º
-
-```
---concurrency´ú±í²¢·¢ÊıÁ¿£¬¶à¸ö¿ÉÒÔÓÃ¶ººÅ¸ô¿ª£¬concurrency=10,50,100, ²¢·¢Á¬½ÓÏß³ÌÊı·Ö±ğÊÇ10¡¢50¡¢100¸ö²¢·¢¡£
---engines´ú±íÒª²âÊÔµÄÒıÇæ£¬¿ÉÒÔÓĞ¶à¸ö£¬ÓÃ·Ö¸ô·û¸ô¿ª¡£
---iterations´ú±íÒªÔËĞĞÕâĞ©²âÊÔ¶àÉÙ´Î¡£
---auto-generate-sql ´ú±íÓÃÏµÍ³×Ô¼ºÉú³ÉµÄSQL½Å±¾À´²âÊÔ¡£
---auto-generate-sql-load-type ´ú±íÒª²âÊÔµÄÊÇ¶Á»¹ÊÇĞ´»¹ÊÇÁ½Õß»ìºÏµÄ£¨read,write,update,mixed£©
---number-of-queries ´ú±í×Ü¹²ÒªÔËĞĞ¶àÉÙ´Î²éÑ¯¡£Ã¿¸ö¿Í»§ÔËĞĞµÄ²éÑ¯ÊıÁ¿¿ÉÒÔÓÃ²éÑ¯×ÜÊı/²¢·¢ÊıÀ´¼ÆËã¡£
---debug-info ´ú±íÒª¶îÍâÊä³öCPUÒÔ¼°ÄÚ´æµÄÏà¹ØĞÅÏ¢¡£
---number-int-cols £º´´½¨²âÊÔ±íµÄ int ĞÍ×Ö¶ÎÊıÁ¿
---auto-generate-sql-add-autoincrement : ´ú±í¶ÔÉú³ÉµÄ±í×Ô¶¯Ìí¼Óauto_incrementÁĞ£¬´Ó5.1.18°æ±¾¿ªÊ¼
---number-char-cols ´´½¨²âÊÔ±íµÄ char ĞÍ×Ö¶ÎÊıÁ¿¡£
---create-schema ²âÊÔµÄschema£¬MySQLÖĞschemaÒ²¾ÍÊÇdatabase¡£
---query Ê¹ÓÃ×Ô¶¨Òå½Å±¾Ö´ĞĞ²âÊÔ£¬ÀıÈç¿ÉÒÔµ÷ÓÃ×Ô¶¨ÒåµÄÒ»¸ö´æ´¢¹ı³Ì»òÕßsqlÓï¾äÀ´Ö´ĞĞ²âÊÔ¡£
---delimiter ËµÃ÷sqlÎÄ¼şÖĞÓï¾ä¼äµÄ·Ö¸ô·ûÊÇÊ²Ã´
---only-print Èç¹ûÖ»Ïë´òÓ¡¿´¿´SQLÓï¾äÊÇÊ²Ã´£¬¿ÉÒÔÓÃÕâ¸öÑ¡Ïî
-```
-## 2.°¸Àı£º
+## 1.å‚æ•°è¯´æ˜ï¼š
 
 ```
-±¾µØÑ¹²â:
+--concurrencyä»£è¡¨å¹¶å‘æ•°é‡ï¼Œå¤šä¸ªå¯ä»¥ç”¨é€—å·éš”å¼€ï¼Œconcurrency=10,50,100, å¹¶å‘è¿æ¥çº¿ç¨‹æ•°åˆ†åˆ«æ˜¯10ã€50ã€100ä¸ªå¹¶å‘ã€‚
+--enginesä»£è¡¨è¦æµ‹è¯•çš„å¼•æ“ï¼Œå¯ä»¥æœ‰å¤šä¸ªï¼Œç”¨åˆ†éš”ç¬¦éš”å¼€ã€‚
+--iterationsä»£è¡¨è¦è¿è¡Œè¿™äº›æµ‹è¯•å¤šå°‘æ¬¡ã€‚
+--auto-generate-sql ä»£è¡¨ç”¨ç³»ç»Ÿè‡ªå·±ç”Ÿæˆçš„SQLè„šæœ¬æ¥æµ‹è¯•ã€‚
+--auto-generate-sql-load-type ä»£è¡¨è¦æµ‹è¯•çš„æ˜¯è¯»è¿˜æ˜¯å†™è¿˜æ˜¯ä¸¤è€…æ··åˆçš„ï¼ˆread,write,update,mixedï¼‰
+--number-of-queries ä»£è¡¨æ€»å…±è¦è¿è¡Œå¤šå°‘æ¬¡æŸ¥è¯¢ã€‚æ¯ä¸ªå®¢æˆ·è¿è¡Œçš„æŸ¥è¯¢æ•°é‡å¯ä»¥ç”¨æŸ¥è¯¢æ€»æ•°/å¹¶å‘æ•°æ¥è®¡ç®—ã€‚
+--debug-info ä»£è¡¨è¦é¢å¤–è¾“å‡ºCPUä»¥åŠå†…å­˜çš„ç›¸å…³ä¿¡æ¯ã€‚
+--number-int-cols ï¼šåˆ›å»ºæµ‹è¯•è¡¨çš„ int å‹å­—æ®µæ•°é‡
+--auto-generate-sql-add-autoincrement : ä»£è¡¨å¯¹ç”Ÿæˆçš„è¡¨è‡ªåŠ¨æ·»åŠ auto_incrementåˆ—ï¼Œä»5.1.18ç‰ˆæœ¬å¼€å§‹
+--number-char-cols åˆ›å»ºæµ‹è¯•è¡¨çš„ char å‹å­—æ®µæ•°é‡ã€‚
+--create-schema æµ‹è¯•çš„schemaï¼ŒMySQLä¸­schemaä¹Ÿå°±æ˜¯databaseã€‚
+--query ä½¿ç”¨è‡ªå®šä¹‰è„šæœ¬æ‰§è¡Œæµ‹è¯•ï¼Œä¾‹å¦‚å¯ä»¥è°ƒç”¨è‡ªå®šä¹‰çš„ä¸€ä¸ªå­˜å‚¨è¿‡ç¨‹æˆ–è€…sqlè¯­å¥æ¥æ‰§è¡Œæµ‹è¯•ã€‚
+--delimiter è¯´æ˜sqlæ–‡ä»¶ä¸­è¯­å¥é—´çš„åˆ†éš”ç¬¦æ˜¯ä»€ä¹ˆ
+--only-print å¦‚æœåªæƒ³æ‰“å°çœ‹çœ‹SQLè¯­å¥æ˜¯ä»€ä¹ˆï¼Œå¯ä»¥ç”¨è¿™ä¸ªé€‰é¡¹
+```
+## 2.æ¡ˆä¾‹ï¼š
+
+```
+æœ¬åœ°å‹æµ‹:
 mysqlslap --concurrency=50  --number-of-queries=100 --iterations=1 --create-schema='testdb' --debug-info  --socket=/export/servers/data/my3310/run/mysqld.sock --query="SELECT * FROM TESTTABLE;" 
 
-ÒìµØÑ¹²â£º
+å¼‚åœ°å‹æµ‹ï¼š
 mysqlslap  -uUser_NAME -P3310 -hHOSTNAME -p123456 --concurrency=50  --number-of-queries=100 --iterations=1 --create-schema='testdb' --debug-info --query="SELECT * FROM TESTTABLE ;" 
 
-Ö¸¶¨Ö´ĞĞ½Å±¾£º
-mysqlslap ¨Cuser=root ¨Cpassword=111111 ¨Cconcurrency=20 ¨Cnumber-of-queries=1000 ¨Ccreate-schema=employees ¨Cquery="select_query.sql" ¨Cdelimiter=";"
+æŒ‡å®šæ‰§è¡Œè„šæœ¬ï¼š
+mysqlslap â€“user=root â€“password=111111 â€“concurrency=20 â€“number-of-queries=1000 â€“create-schema=employees â€“query="select_query.sql" â€“delimiter=";"
 ```
-ÅäºÏ²Ù×÷ÏµÍ³ĞÅÏ¢¿ÉÒÔÈ·¶¨¶ÔÓ¦µÄÏµÍ³Æ¿¾±¡£
+é…åˆæ“ä½œç³»ç»Ÿä¿¡æ¯å¯ä»¥ç¡®å®šå¯¹åº”çš„ç³»ç»Ÿç“¶é¢ˆã€‚
 
-## ¸½
+## é™„
 
-- ²Î¿¼£ºhttp://blog.chinaunix.net/uid-259788-id-2139303.html
-- ´æ´¢¹ı³Ì°¸Àı£º
+- å‚è€ƒï¼šhttp://blog.chinaunix.net/uid-259788-id-2139303.html
+- å­˜å‚¨è¿‡ç¨‹æ¡ˆä¾‹ï¼š
 
 ```sql
 DELIMITER $$
