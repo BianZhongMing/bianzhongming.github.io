@@ -9,6 +9,7 @@
 - **[20171213 ORACLE控制文件重建修复一例](https://github.com/BianZhongMing/bianzhongming.github.io/blob/master/Oracle/20171213%20ORACLE%E6%8E%A7%E5%88%B6%E6%96%87%E4%BB%B6%E9%87%8D%E5%BB%BA%E4%BF%AE%E5%A4%8D%E4%B8%80%E4%BE%8B.md)**
 - **[20171221 Mysql5.7.16 count效率存在问题测试](https://github.com/BianZhongMing/bianzhongming.github.io/blob/master/MYSQL/20171221%20Mysql5.7.16%20count%E6%95%88%E7%8E%87%E5%AD%98%E5%9C%A8%E9%97%AE%E9%A2%98%E6%B5%8B%E8%AF%95.md)**
 - **[MySQL压测工具：mysqlslap](https://github.com/BianZhongMing/bianzhongming.github.io/blob/master/MYSQL/MySQL%E5%8E%8B%E6%B5%8B%E5%B7%A5%E5%85%B7%EF%BC%9Amysqlslap%20.md)**
+- **[mysql_block demo定位未提交事务执行的SQL语句](https://github.com/BianZhongMing/bianzhongming.github.io/blob/master/MYSQL/mysql_block%20demo%E5%AE%9A%E4%BD%8D%E6%9C%AA%E6%8F%90%E4%BA%A4%E4%BA%8B%E5%8A%A1%E6%89%A7%E8%A1%8C%E7%9A%84SQL%E8%AF%AD%E5%8F%A5.md)**
 
 ---
 
