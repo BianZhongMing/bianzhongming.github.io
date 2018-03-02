@@ -10,6 +10,8 @@
 - **[20171221 Mysql5.7.16 count效率存在问题测试](https://github.com/BianZhongMing/bianzhongming.github.io/blob/master/MYSQL/20171221%20Mysql5.7.16%20count%E6%95%88%E7%8E%87%E5%AD%98%E5%9C%A8%E9%97%AE%E9%A2%98%E6%B5%8B%E8%AF%95.md)**
 - **[MySQL压测工具：mysqlslap](https://github.com/BianZhongMing/bianzhongming.github.io/blob/master/MYSQL/MySQL%E5%8E%8B%E6%B5%8B%E5%B7%A5%E5%85%B7%EF%BC%9Amysqlslap%20.md)**
 - **[mysql_block demo定位未提交事务执行的SQL语句](https://github.com/BianZhongMing/bianzhongming.github.io/blob/master/MYSQL/mysql_block%20demo%E5%AE%9A%E4%BD%8D%E6%9C%AA%E6%8F%90%E4%BA%A4%E4%BA%8B%E5%8A%A1%E6%89%A7%E8%A1%8C%E7%9A%84SQL%E8%AF%AD%E5%8F%A5.md)**
+- **[MHA部署指南](https://github.com/BianZhongMing/bianzhongming.github.io/blob/master/MYSQL/mha_install/MHA%E9%83%A8%E7%BD%B2%E6%8C%87%E5%8D%97.md)**
+- **[mha双节点DEMO（基于Vmware）](https://github.com/BianZhongMing/bianzhongming.github.io/blob/master/MYSQL/mha_install/mha%E5%8F%8C%E8%8A%82%E7%82%B9DEMO%EF%BC%88%E5%9F%BA%E4%BA%8EVmware%EF%BC%89.md)**
 
 ---
 

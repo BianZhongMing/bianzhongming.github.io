@@ -1,4 +1,9 @@
-#mha双节点DEMO（基于Vmware）
+# mha双节点DEMO（基于Vmware）
+
+> 安装程序：https://github.com/BianZhongMing/bianzhongming.github.io/tree/master/MYSQL/mha_install/package
+> 部署脚本：https://github.com/BianZhongMing/bianzhongming.github.io/tree/master/MYSQL/mha_install/deploy
+> 文档：https://github.com/BianZhongMing/bianzhongming.github.io/tree/master/MYSQL/mha_install
+
 ## 1.准备工作和基本环境
 
 - 安装Linux，关闭SELINUX和防火墙，操作系统信息如下：
